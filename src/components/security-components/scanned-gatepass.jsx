@@ -36,7 +36,12 @@ export default function ScannedGatePass() {
     setError("");
 
     try {
-      await navigator.mediaDevices.getUserMedia({ video: true });
+      const constraints = {
+        video: { facingMode: { exact: "environment" } }, // Forces back camera
+      };
+
+      await navigator.mediaDevices.getUserMedia(constraints);
+      // await navigator.mediaDevices.getUserMedia({ video: true });
 
       const codeReader = new BrowserMultiFormatReader();
 

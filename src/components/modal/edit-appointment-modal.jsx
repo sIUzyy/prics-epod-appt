@@ -252,7 +252,9 @@ export default function EditAppointmentModal({
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <div
                       className={`${
-                        selectedAppointment?.status === "In Progress"
+                        ["In Progress", "Completed"].includes(
+                          selectedAppointment?.status
+                        )
                           ? "cursor-not-allowed opacity-50"
                           : ""
                       }`}
@@ -266,13 +268,17 @@ export default function EditAppointmentModal({
                           setEditSelectedDate(dayjs(newDate).tz("Asia/Manila"))
                         }
                         disablePast
-                        disabled={selectedAppointment?.status === "In Progress"}
+                        disabled={["In Progress", "Completed"].includes(
+                          selectedAppointment?.status
+                        )}
                       />
                     </div>
 
                     <div
                       className={`${
-                        selectedAppointment?.status === "In Progress"
+                        ["In Progress", "Completed"].includes(
+                          selectedAppointment?.status
+                        )
                           ? "cursor-not-allowed opacity-50"
                           : ""
                       }`}
@@ -285,7 +291,9 @@ export default function EditAppointmentModal({
                           newTime &&
                           setEditSelectedTime(dayjs(newTime).tz("Asia/Manila"))
                         }
-                        disabled={selectedAppointment?.status === "In Progress"}
+                        disabled={["In Progress", "Completed"].includes(
+                          selectedAppointment?.status
+                        )}
                       />
                     </div>
                   </LocalizationProvider>
@@ -441,19 +449,27 @@ export default function EditAppointmentModal({
                       <div className="relative mt-0">
                         <select
                           className={`border p-4 w-full mt-1 rounded-md focus:outline-none focus:ring-2 
-                          ${
-                            selectedPlateError
-                              ? "border-red-500 focus:ring-red-500 text-red-500"
-                              : editSelectedPlate
-                              ? "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
-                              : "text-gray-400"
-                          } 
-                          outline-0 appearance-none pr-10`}
+        ${
+          selectedPlateError
+            ? "border-red-500 focus:ring-red-500 text-red-500"
+            : editSelectedPlate
+            ? "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+            : "text-gray-400"
+        } 
+        outline-0 appearance-none pr-10
+        ${
+          ["In Progress", "Completed"].includes(selectedAppointment?.status)
+            ? "cursor-not-allowed opacity-50"
+            : ""
+        }`}
                           value={editSelectedPlate}
                           onChange={(e) => {
                             setEditSelectedPlate(e.target.value);
                             if (selectedPlateError) setSelectedPlateError("");
                           }}
+                          disabled={["In Progress", "Completed"].includes(
+                            selectedAppointment?.status
+                          )}
                         >
                           <option value="">
                             {selectedPlateError
