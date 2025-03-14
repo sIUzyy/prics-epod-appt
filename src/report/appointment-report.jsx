@@ -108,8 +108,16 @@ export default function AppointmentReport({ data }) {
 
               <Text style={styles.column}>{item.parking_slot || "-"}</Text>
               <Text style={styles.column}>{item.dock || "-"}</Text>
-              <Text style={styles.column}>{"-"}</Text>
-              <Text style={styles.column}>{"-"}</Text>
+              <Text style={styles.column}>
+                {item.time_in
+                  ? dayjs(item.time_in).format("MMMM D, YYYY hh:mm A") // Example: March 13, 2025 01:45 PM
+                  : "-"}
+              </Text>
+              <Text style={styles.column}>
+                {item.time_out
+                  ? dayjs(item.time_out).format("MMMM D, YYYY hh:mm A") // Example: March 13, 2025 01:45 PM
+                  : "-"}
+              </Text>
               <Text style={styles.column}>{item.status || "-"}</Text>
             </View>
           );

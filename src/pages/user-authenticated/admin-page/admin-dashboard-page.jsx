@@ -251,7 +251,7 @@ export default function AdminOrderSummary() {
       ) : (
         <>
           <div className="card_section flex gap-x-3">
-            <Card className={"max-w-[360px]"}>
+            <Card className={"max-w-[320px]"}>
               <CardHeader>
                 <div className="flex justify-between items-center ">
                   <CardTitle className={"font-inter text-base font-medium"}>
@@ -272,7 +272,7 @@ export default function AdminOrderSummary() {
                 </p>
               </CardContent>
             </Card>
-            <Card className={"max-w-[360px]"}>
+            <Card className={"max-w-[320px]"}>
               <CardHeader>
                 <div className="flex justify-between items-center ">
                   <CardTitle className={"font-inter text-base font-medium"}>
@@ -292,7 +292,7 @@ export default function AdminOrderSummary() {
               </CardContent>
             </Card>
 
-            <Card className={"max-w-[360px]"}>
+            <Card className={"max-w-[320px]"}>
               <CardHeader>
                 <div className="flex justify-between items-center ">
                   <CardTitle className={"font-inter text-base font-medium"}>
@@ -312,7 +312,7 @@ export default function AdminOrderSummary() {
               </CardContent>
             </Card>
 
-            <Card className={"max-w-[360px]"}>
+            <Card className={"max-w-[320px]"}>
               <CardHeader>
                 <div className="flex justify-between items-center ">
                   <CardTitle className={"font-inter text-base font-medium"}>

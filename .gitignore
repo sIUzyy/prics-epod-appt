@@ -32,3 +32,6 @@ dist-ssr
 .firebaserc         
 firebase.json      
 
+# visualizer 
+stats.html
+

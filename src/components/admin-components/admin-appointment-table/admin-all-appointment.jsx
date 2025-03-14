@@ -229,7 +229,7 @@ export default function AllAppointment() {
                 <div className="border rounded-lg divide-y divide-gray-200">
                   <div className="py-5 px-4 flex justify-between items-center">
                     <div className="flex items-center justify-between gap-x-2 w-full">
-                      <div className="flex items-center">
+                      <div className="flex items-center justify-center gap-x-2">
                         {/* search bar and filter */}
                         <MemoizedSearchBar
                           searchTerm={searchTerm}
@@ -321,12 +321,12 @@ export default function AllAppointment() {
                                 {item.status}
                               </span>
                             </td>
-                            <td className="td-admin-table">
+                            <td className="td-admin-table flex justify-center">
                               <button
                                 onClick={() =>
                                   generateGatePass(item.appointment_id)
                                 }
-                                className="cursor-pointer w-full"
+                                className="cursor-pointer outline-none"
                                 title={`Download appointment id ${item.appointment_id}`}
                               >
                                 <IdCard
@@ -350,18 +350,17 @@ export default function AllAppointment() {
                                   />
                                 }
                                 fileName={`APPOINTMENT_ID:${item.appointment_id}_APPT_REPORT.pdf`}
-                                className="w-full"
                               >
                                 <FileChartColumnIncreasing
                                   size={20}
-                                  className="mx-auto text-indigo-500"
+                                  className="mx-auto text-indigo-500 outline-none"
                                 />
                               </PDFDownloadLink>
                             </td>
                             <td className="td-admin-table">
                               <button
                                 title={`Edit appt. id ${item.appointment_id}`}
-                                className="text-green-600 mr-2 cursor-pointer"
+                                className="text-green-600 mr-2 cursor-pointer outline-none"
                                 onClick={() =>
                                   handleEditModal(item.appointment_id)
                                 }
@@ -369,8 +368,8 @@ export default function AllAppointment() {
                                 Edit
                               </button>
                               <button
-                                title={`Delete ${item.appointment_id}`}
-                                className="text-red-600 cursor-pointer"
+                                title={`Delete appt. id ${item.appointment_id}`}
+                                className="text-red-600 cursor-pointer outline-none"
                                 onClick={() =>
                                   handleDeleteModal(item.appointment_id)
                                 }

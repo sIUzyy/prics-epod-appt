@@ -2,15 +2,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // icons
-import { CalendarCheck2, Package, Hash } from "lucide-react";
+import { CalendarCheck2, Package } from "lucide-react";
 
 // components
 import Heading from "@/components/header/page-heading";
 
 // components - user-components
+import UserDeliveryCard from "@/components/user-components/user-delivery-card";
+import UserTable from "@/components/user-components/user-table";
 import LoadingTable from "@/components/loading/loading-table";
 import LoadingCard from "@/components/loading/loading-card";
-import UserTable from "@/components/user-components/user-table";
 
 // ---- axios ----
 import axios from "axios";
@@ -49,6 +50,9 @@ export default function UserDashboardPage() {
 
   // stored the appointment list
   const [appointmentData, setAppointmentData] = useState([]);
+
+  // check if the device is mobile
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   // loading state
   const [loadingPlate, setLoadingPlate] = useState(false);
@@ -174,12 +178,21 @@ export default function UserDashboardPage() {
   );
 
   // filter the appointment data show the today's appointment
-  console.log(appointmentData);
   const todayAppointments = appointmentData.filter((appointment) =>
     appointment.appointment_date
       ? dayjs(appointment.appointment_date).tz(PH_TZ).isSame(todayPH, "day")
       : false
   );
+
+  // check if the window width is mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="my-5 mx-4">
@@ -194,8 +207,8 @@ export default function UserDashboardPage() {
         </div>
       ) : (
         <>
-          <div className="card_section flex gap-x-5">
-            <Card className={"min-w-[320px] lg:max-w-[400px]"}>
+          <div className="card_section flex flex-col gap-y-5 md:flex-row md:gap-x-2">
+            <Card className={"max-w-[330px] "}>
               <CardHeader>
                 <div className="flex justify-between items-center ">
                   <CardTitle className={"font-inter text-base font-medium"}>
@@ -210,14 +223,13 @@ export default function UserDashboardPage() {
                   {todayShipments.length}
                 </h1>
                 <p className="text-sm text-[#6c757d] mt-5">
-                  Here is a summary of the deliveries scheduled for today,
-                  including details such as tracking no., customer name,
-                  addresses.
+                  Summary of the deliveries scheduled for today, including
+                  details such as tracking no., customer name, addresses.
                 </p>
               </CardContent>
             </Card>
 
-            <Card className={"min-w-[320px] lg:max-w-[400px]"}>
+            <Card className={"max-w-[330px]"}>
               <CardHeader>
                 <div className="flex justify-between items-center ">
                   <CardTitle className={"font-inter text-base font-medium"}>
@@ -236,28 +248,16 @@ export default function UserDashboardPage() {
                 </p>
               </CardContent>
             </Card>
-
-            <Card className={"min-w-[320px] lg:max-w-[400px]"}>
-              <CardHeader>
-                <div className="flex justify-between items-center ">
-                  <CardTitle className={"font-inter text-base font-medium"}>
-                    Plate Number
-                  </CardTitle>
-                  <Hash size={25} />
-                </div>
-              </CardHeader>
-
-              <CardContent>
-                <h1 className="text-5xl font-bebas tracking-wider">
-                  {shipmentData.length > 0 ? shipmentData[0].plateNo : "N/A"}
-                </h1>
-                <p className="text-sm text-[#6c757d] mt-5">
-                  Plate number of the truck assigned to you.
-                </p>
-              </CardContent>
-            </Card>
           </div>
-          <UserTable data={shipmentData} preDeliveryData={preDeliveryData} />
+
+          {isMobile ? (
+            <UserDeliveryCard
+              data={shipmentData}
+              preDeliveryData={preDeliveryData}
+            />
+          ) : (
+            <UserTable data={shipmentData} preDeliveryData={preDeliveryData} />
+          )}
         </>
       )}
     </div>

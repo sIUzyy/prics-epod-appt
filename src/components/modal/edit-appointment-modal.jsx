@@ -336,7 +336,12 @@ export default function EditAppointmentModal({
                           carrierNameError
                             ? "border-red-500 focus:ring-red-500 placeholder-red-500"
                             : "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+                        } ${
+                          selectedAppointment?.status === "Completed"
+                            ? "cursor-not-allowed opacity-50"
+                            : ""
                         }`}
+                        disabled={selectedAppointment?.status === "Completed"}
                       />
                     </div>
                   </div>
@@ -363,7 +368,12 @@ export default function EditAppointmentModal({
                             driverNameError
                               ? "border-red-500 focus:ring-red-500 placeholder-red-500"
                               : "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
-                          }`}
+                          } ${
+                          selectedAppointment?.status === "Completed"
+                            ? "cursor-not-allowed opacity-50"
+                            : ""
+                        }`}
+                        disabled={selectedAppointment?.status === "Completed"}
                       />
                     </div>
 
@@ -388,7 +398,12 @@ export default function EditAppointmentModal({
                             helperNameError
                               ? "border-red-500 focus:ring-red-500 placeholder-red-500"
                               : "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
-                          }`}
+                          } ${
+                          selectedAppointment?.status === "Completed"
+                            ? "cursor-not-allowed opacity-50"
+                            : ""
+                        }`}
+                        disabled={selectedAppointment?.status === "Completed"}
                       />
                     </div>
                   </div>
@@ -415,7 +430,13 @@ export default function EditAppointmentModal({
                             parkingSlotError
                               ? "border-red-500 focus:ring-red-500 placeholder-red-500"
                               : "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
-                          }`}
+                          }
+                           ${
+                             selectedAppointment?.status === "Completed"
+                               ? "cursor-not-allowed opacity-50"
+                               : ""
+                           }`}
+                        disabled={selectedAppointment?.status === "Completed"}
                       />
                     </div>
 
@@ -436,7 +457,13 @@ export default function EditAppointmentModal({
                             dockError
                               ? "border-red-500 focus:ring-red-500 placeholder-red-500"
                               : "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+                          }
+                          ${
+                            selectedAppointment?.status === "Completed"
+                              ? "cursor-not-allowed opacity-50"
+                              : ""
                           }`}
+                        disabled={selectedAppointment?.status === "Completed"}
                       />
                     </div>
                   </div>
@@ -449,19 +476,21 @@ export default function EditAppointmentModal({
                       <div className="relative mt-0">
                         <select
                           className={`border p-4 w-full mt-1 rounded-md focus:outline-none focus:ring-2 
-        ${
-          selectedPlateError
-            ? "border-red-500 focus:ring-red-500 text-red-500"
-            : editSelectedPlate
-            ? "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
-            : "text-gray-400"
-        } 
-        outline-0 appearance-none pr-10
-        ${
-          ["In Progress", "Completed"].includes(selectedAppointment?.status)
-            ? "cursor-not-allowed opacity-50"
-            : ""
-        }`}
+                          ${
+                            selectedPlateError
+                              ? "border-red-500 focus:ring-red-500 text-red-500"
+                              : editSelectedPlate
+                              ? "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+                              : "text-gray-400"
+                          } 
+                          outline-0 appearance-none pr-10
+                          ${
+                            ["In Progress", "Completed"].includes(
+                              selectedAppointment?.status
+                            )
+                              ? "cursor-not-allowed opacity-50"
+                              : ""
+                          }`}
                           value={editSelectedPlate}
                           onChange={(e) => {
                             setEditSelectedPlate(e.target.value);
@@ -498,12 +527,17 @@ export default function EditAppointmentModal({
               <button
                 type="button"
                 onClick={handleUpdateAppointment}
-                className={
-                  isLoading
-                    ? "inline-flex w-full justify-center rounded-sm bg-green-600 px-10 py-2 text-center text-sm font-medium text-white shadow-xs opacity-50 sm:ml-3 sm:w-auto cursor-progress   "
-                    : "inline-flex w-full justify-center rounded-sm bg-green-600 px-10 py-2 text-center text-sm font-medium text-white shadow-xs hover:opacity-80 sm:ml-3 sm:w-auto cursor-pointer  "
+                className={`
+    inline-flex w-full justify-center rounded-sm px-10 py-2 text-center text-sm font-medium text-white shadow-xs sm:ml-3 sm:w-auto
+    ${
+      isLoading || selectedAppointment?.status === "Completed"
+        ? "bg-green-600 opacity-50 cursor-not-allowed"
+        : "bg-green-600 hover:opacity-80 cursor-pointer"
+    }
+  `}
+                disabled={
+                  isLoading || selectedAppointment?.status === "Completed"
                 }
-                disabled={isLoading}
               >
                 {isLoading ? (
                   <div className="flex items-center gap-x-2">

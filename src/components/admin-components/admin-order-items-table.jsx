@@ -113,7 +113,7 @@ export default function AdminOrderItemsTable({ data, preDeliveryData }) {
                             >
                               <ArrowDownToLine
                                 size={20}
-                                className="text-indigo-500"
+                                className="text-indigo-500 outline-none"
                               />
                             </PDFDownloadLink>
                           </td>

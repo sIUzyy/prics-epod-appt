@@ -17,7 +17,7 @@ export default function LandingPageComponent() {
 
         {/* get started button */}
         <Link to={"/signin"}>
-          <h1 className="mx-auto font-bebas tracking-widest text-white px-5 py-1 rounded-full w-fit text-sm bg-gradient-to-r from-[#4A90E2] to-[#9013FE] shadow-lg hover:opacity-80 transition md:mx-0 lg:text-base 2xl:text-lg">
+          <h1 className="mx-auto font-bebas tracking-widest text-white px-5 py-1 rounded-full w-fit text-lg bg-gradient-to-r from-[#4A90E2] to-[#9013FE] shadow-lg hover:opacity-80 transition md:mx-0 lg:text-base 2xl:text-lg">
             get started
           </h1>
         </Link>
@@ -28,7 +28,6 @@ export default function LandingPageComponent() {
           src={truck_img}
           alt="truck_image"
           className="object-cover h-90 lg:w-[50vh] xl:mx-auto"
-          loading="lazy"
         />
       </div>
     </div>

@@ -44,10 +44,9 @@ export default function AuthContextProvider({ children }) {
   // sign out fn
   const signOut = () => {
     try {
-      setUser(null); // clear
-      setSelectedWarehouse(""); // clear
-      localStorage.removeItem("user"); // clear
-      localStorage.removeItem("selectedWarehouse"); // clear
+      setUser(null);
+      setSelectedWarehouse("");
+      localStorage.clear(); // clears everything in localStorage
     } catch (error) {
       console.error("Sign out failed...", error);
     }
@@ -62,7 +61,7 @@ export default function AuthContextProvider({ children }) {
     );
   }
 
-  const value = { user, signIn, signOut };
+  const value = { user, isLoading, signIn, signOut };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

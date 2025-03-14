@@ -12,7 +12,9 @@ import { getRedirectPath } from "@/utils/getRedirectPath";
 
 // this component will protect the authenticated route, role-based route by someone who want to access.
 export default function ProtectedRoute({ children, requiredRole }) {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) return null; // or show a loading screen
 
   // if no user. meaning not logged in, redirect to sign in page.
   if (!user) {

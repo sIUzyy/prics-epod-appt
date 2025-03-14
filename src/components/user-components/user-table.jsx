@@ -8,8 +8,6 @@ import { fetchCoordinates } from "@/utils/fetchCoordinates"; // utils convert ad
 
 import { USER_DASHBOARD_TABLE_HEADERS } from "../header/table-headers"; // component - headers
 
-import NoDeliveryToday from "./no-delivery-today"; // component - if there's no delivery show this
-
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -126,7 +124,11 @@ export default function UserTable({ data, preDeliveryData }) {
 
   // if no delivery for today, show this.
   if (sortedData.length === 0) {
-    return <NoDeliveryToday />;
+    return (
+      <p className="text-gray-500 font-medium px-0 py-5">
+        No delivery for today.
+      </p>
+    );
   }
 
   return (

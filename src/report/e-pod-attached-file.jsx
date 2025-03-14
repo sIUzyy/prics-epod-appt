@@ -68,7 +68,8 @@ export default function AttachedFile({ selectedProductCode, preDeliveryData }) {
             {uniqueImages.map((image, index) => (
               <Image
                 key={index}
-                src={`http://localhost:5000/${image}`}
+                // src={`http://localhost:5000/${image}`}
+                src={`https://prics-epod-backend.onrender.com/${image}`}
                 style={{
                   width: 400,
                   height: 300,

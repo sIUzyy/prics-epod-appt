@@ -299,10 +299,10 @@ export default function AdminSummaryTable({ data, preDeliveryData }) {
                               })()}
                             </td>
 
-                            <td className="td-admin-table  ">
+                            <td className="td-admin-table w-full  flex justify-center  ">
                               <button
                                 onClick={() => generateBarcode(item.trackingNo)}
-                                className="cursor-pointer w-full  "
+                                className="cursor-pointer outline-none "
                                 title={`Download tracking no. ${item.trackingNo}`}
                               >
                                 <ArrowDownToLine
@@ -329,11 +329,10 @@ export default function AdminSummaryTable({ data, preDeliveryData }) {
                                   />
                                 }
                                 fileName={`TRACKING_NO:${item.trackingNo}_EPOD_REPORT.pdf`}
-                                className="w-full "
                               >
                                 <FileChartColumnIncreasing
                                   size={20}
-                                  className="mx-auto text-indigo-500"
+                                  className="mx-auto text-indigo-500 outline-none "
                                 />
                               </PDFDownloadLink>
                             </td>
@@ -343,7 +342,7 @@ export default function AdminSummaryTable({ data, preDeliveryData }) {
                                 onClick={() =>
                                   handleDeleteButton(item.trackingNo)
                                 }
-                                className="text-[#EB191D] cursor-pointer "
+                                className="text-[#EB191D] cursor-pointer outline-none "
                                 title={`Delete ${item.trackingNo}`}
                               >
                                 Delete

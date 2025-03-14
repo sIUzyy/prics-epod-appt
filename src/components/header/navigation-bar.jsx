@@ -128,15 +128,21 @@ export default function NavigationBar({ aboutRef, contactRef }) {
         {/*navigation bar */}
         <div className="flex justify-between items-center md:w-1/2  ">
           <Link to={"/"}>
-            <h1 className="font-inter hover:underline ">Home</h1>
+            <h1 className="font-inter underline- hover:underline hover:underline-offset-5 hover:decoration-4 hover:decoration-indigo-500">
+              Home
+            </h1>
           </Link>
 
           <Link onClick={() => scrollToSection(aboutRef)}>
-            <h1 className="font-inter hover:underline">About</h1>
+            <h1 className="font-inter underline- hover:underline hover:underline-offset-5 hover:decoration-4 hover:decoration-indigo-500">
+              About
+            </h1>
           </Link>
 
           <Link onClick={() => scrollToSection(contactRef)}>
-            <h1 className="font-inter hover:underline">Contact</h1>
+            <h1 className="font-inter underline- hover:underline hover:underline-offset-5 hover:decoration-4 hover:decoration-indigo-500">
+              Contact
+            </h1>
           </Link>
 
           <Link to={"/signin"}>

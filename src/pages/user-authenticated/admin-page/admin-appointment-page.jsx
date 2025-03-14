@@ -136,7 +136,7 @@ export default function AdminAppointmentPage() {
           <LoadingCard />
         ) : (
           <div className="card_section flex gap-x-3">
-            <Card className={"min-w-[360px]"}>
+            <Card className={"max-w-[320px]"}>
               <CardHeader>
                 <div className="flex justify-between items-center ">
                   <CardTitle className={"font-inter text-base font-medium"}>
@@ -151,11 +151,11 @@ export default function AdminAppointmentPage() {
                   {todayAppointmentsCount ? todayAppointmentsCount : 0}
                 </h1>
                 <p className="text-sm text-[#6c757d] mt-5">
-                  Number of appointments today
+                  Total Number of Appointments Scheduled for Today
                 </p>
               </CardContent>
             </Card>
-            <Card className={"max-w-[360px]"}>
+            <Card className={"max-w-[320px]"}>
               <CardHeader>
                 <div className="flex justify-between items-center ">
                   <CardTitle className={"font-inter text-base font-medium"}>
@@ -174,7 +174,7 @@ export default function AdminAppointmentPage() {
               </CardContent>
             </Card>
 
-            <Card className={"max-w-[360px]"}>
+            <Card className={"max-w-[320px]"}>
               <CardHeader>
                 <div className="flex justify-between items-center ">
                   <CardTitle className={"font-inter text-base font-medium"}>

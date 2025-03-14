@@ -13,7 +13,7 @@ export default function Layout({ children }) {
     <SidebarProvider>
       <AppSidebar />
       <main>
-        <div className="flex mx-2  items-center  py-3 ">
+        <div className="flex mx-2 items-center py-3 ">
           <SidebarTrigger />
           <span className="mx-2 text-[#27272A]"> | </span>
           <h1 className="text-[#8C8C95]">E-POD - PRICS Technology Inc.</h1>
