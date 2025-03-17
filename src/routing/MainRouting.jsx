@@ -60,6 +60,12 @@ const AdminMaintenanceCreateAccount = lazy(() =>
     "@/pages/user-authenticated/admin-page/maintenance-pages/admin-maintenance-create-account"
   )
 );
+
+const AdminMaintenanceActivity = lazy(() =>
+  import(
+    "@/pages/user-authenticated/admin-page/maintenance-pages/admin-maintenance-activity"
+  )
+);
 const AdminMaintenanceDriverList = lazy(() =>
   import(
     "@/pages/user-authenticated/admin-page/maintenance-pages/admin-maintenance-driver-list"
@@ -218,6 +224,15 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: "maintenance/activity",
+        element: (
+          <Suspense fallback={""}>
+            <AdminMaintenanceActivity />
+          </Suspense>
+        ),
+      },
+
       {
         path: "maintenance/driver-list",
         element: (

@@ -1,4 +1,8 @@
-// headlessui
+// ---- react ----
+import { useState } from "react";
+import PropTypes from "prop-types"; // ---- props validation
+
+// ---- headlessui ----
 import {
   Dialog,
   DialogBackdrop,
@@ -6,63 +10,51 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 
-// icon
-import { TriangleAlert } from "lucide-react";
+// ---- component ----
+import LoadingSpinner from "../loading/loading-spinner"; // ---- skeleton
 
-// props validation
-import PropTypes from "prop-types";
+// ---- library ----
+import { TriangleAlert } from "lucide-react"; // ---- icons
+import { toast } from "sonner"; // ---- toast
+import axios from "axios"; // ---- axios
 
-// react
-import { useState } from "react";
-
-// axios
-import axios from "axios";
-
-// toast
-import { toast } from "sonner";
-
-// component
-import LoadingSpinner from "../loading/loading-spinner";
-
-// backend endpoint
+// ---- backend endpoint ----
 const API_ENDPOINT = import.meta.env.VITE_BACKEND_API_ENDPOINT;
 
-export default function DeleteAppointmentModal({
+export default function DeleteUserAccount({
   open,
   setOpen,
-  selectedAppointmentId,
+  selectedUserId,
+  selectedUsername,
 }) {
-  // loading state
+  // ---- loading state
   const [isLoading, setIsLoading] = useState(false);
 
-  // function to delete the tracking no
+  // ---- function to delete the user account (guard)
   const handleDelete = async () => {
     setIsLoading(true);
 
-    if (!selectedAppointmentId) return;
+    if (!selectedUserId) return;
 
     try {
       const response = await axios.delete(
-        `${API_ENDPOINT}/api/appointment/${selectedAppointmentId}/delete-appointment`
+        `${API_ENDPOINT}/api/user/${selectedUserId}/delete-account`
       );
 
       if (response.status === 200) {
-        toast.success(
-          `Successfully deleted the appointment id:${selectedAppointmentId}`,
-          {
-            style: {
-              backgroundColor: "#28a745",
-              color: "#fff",
-            },
-          }
-        );
+        toast.success(`Successfully deleted username ${selectedUsername}`, {
+          style: {
+            backgroundColor: "#28a745",
+            color: "#fff",
+          },
+        });
 
         setOpen(false); // close modal
       }
     } catch (error) {
       console.error("Failed to delete appointment:", error);
       toast.error(
-        `Failed to delete appointment id:${selectedAppointmentId}. Please try again later.`,
+        `Failed to delete username ${selectedUsername}. Please try again later.`,
         {
           style: {
             backgroundColor: "#ff4d4d",
@@ -96,7 +88,7 @@ export default function DeleteAppointmentModal({
                 className="font-inter flex items-center gap-x-2 font-medium text-base tracking-wider"
               >
                 <TriangleAlert size={25} className="text-red-500" /> Confirm
-                deletion of appointment ID {selectedAppointmentId}?
+                deletion of username {selectedUsername}?
               </DialogTitle>
 
               <div className="mt-5 ">
@@ -140,9 +132,10 @@ export default function DeleteAppointmentModal({
   );
 }
 
-// Prop Validation
-DeleteAppointmentModal.propTypes = {
+// props-validation
+DeleteUserAccount.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  selectedAppointmentId: PropTypes.string.isRequired,
+  selectedUserId: PropTypes.string.isRequired,
+  selectedUsername: PropTypes.string.isRequired,
 };

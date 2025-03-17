@@ -84,18 +84,35 @@ export default function ScannedItems() {
   }, [trackingNoData]);
 
   // update the epodStatus in trackingNoData if the length of productCodes is equal to pre_delivery_products
-  const updateEPODStatus = useCallback(async () => {
-    try {
-      const response = await axios.patch(
-        `${API_ENDPOINT}/api/shipment/${trackingNo}/update-epod-status`
-      );
-      if (response.status === 200) {
-        console.log("EPOD status updated to delivered");
+  // const updateEPODStatus = useCallback(async () => {
+  //   try {
+  //     const response = await axios.patch(
+  //       `${API_ENDPOINT}/api/shipment/${trackingNo}/update-epod-status`
+  //     );
+  //     if (response.status === 200) {
+  //       console.log("EPOD status updated to delivered");
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to update EPOD status:", error);
+  //   }
+  // }, [trackingNo]); // add dependencies that change
+
+  const updateEPODStatus = useCallback(
+    async (status) => {
+      try {
+        const response = await axios.patch(
+          `${API_ENDPOINT}/api/shipment/${trackingNo}/update-epod-status`,
+          { epodStatus: status } // Pass the status dynamically
+        );
+        if (response.status === 200) {
+          console.log(`EPOD status updated to ${status}`);
+        }
+      } catch (error) {
+        console.error(`Failed to update EPOD status to ${status}:`, error);
       }
-    } catch (error) {
-      console.error("Failed to update EPOD status:", error);
-    }
-  }, [trackingNo]); // add dependencies that change
+    },
+    [trackingNo] // Dependencies
+  );
 
   // function to handle the pre-delivery data
   const handleSubmit = async (e) => {
@@ -246,17 +263,37 @@ export default function ScannedItems() {
   }, [fetchPreDeliveryData]);
 
   // useEffect for update epodStatus
-  useEffect(() => {
-    if (preDeliveryData.length > 0 && trackingNoData.productCodes.length > 0) {
-      const preDeliveryProductsLength =
-        preDeliveryData[0].pre_delivery_products?.length || 0;
-      const productCodesLength = trackingNoData.productCodes.length;
+  // useEffect(() => {
+  //   if (preDeliveryData.length > 0 && trackingNoData.productCodes.length > 0) {
+  //     const preDeliveryProductsLength =
+  //       preDeliveryData[0].pre_delivery_products?.length || 0;
+  //     const productCodesLength = trackingNoData.productCodes.length;
 
+  //     if (preDeliveryProductsLength === productCodesLength) {
+  //       updateEPODStatus();
+  //     }
+  //   }
+  // }, [preDeliveryData, trackingNoData.productCodes, updateEPODStatus]);
+
+  useEffect(() => {
+    if (preDeliveryData.length > 0) {
+      const preDeliveryTrackingNoLength =
+        preDeliveryData[0]?.pre_delivery_trackingNo?.length || 0;
+      const preDeliveryProductsLength =
+        preDeliveryData[0]?.pre_delivery_products?.length || 0;
+      const productCodesLength = trackingNoData.productCodes?.length || 0;
+  
+      // If productCodes length matches pre_delivery_products, update EPOD status to "Delivered"
       if (preDeliveryProductsLength === productCodesLength) {
-        updateEPODStatus();
+        updateEPODStatus("Delivered");
+      }
+      // Otherwise, if pre_delivery_trackingNo exists, update to "In Receiving"
+      else if (preDeliveryTrackingNoLength > 0) {
+        updateEPODStatus("In Receiving");
       }
     }
   }, [preDeliveryData, trackingNoData.productCodes, updateEPODStatus]);
+  
 
   // useEffect for date/time
   useEffect(() => {

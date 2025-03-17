@@ -32,7 +32,6 @@ export default function AdminMaintenanceWarehouseList() {
         const data = response.data.warehouse;
 
         setWarehouseData(data);
-        console.log(data);
       } catch (error) {
         console.error("Failed to fetch warehouse:", error);
 

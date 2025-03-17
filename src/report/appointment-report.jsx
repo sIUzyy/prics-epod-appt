@@ -36,13 +36,33 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 12,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#333",
+    fontWeight: "normal",
+    textAlign: "left",
   },
-  textDate: { fontSize: 10, fontWeight: "normal", textAlign: "center" },
+  textDate: {
+    fontSize: 12,
+    fontWeight: "bold",
+    textAlign: "left",
+    color: "#333",
+    marginTop: 10,
+  },
+
+  header_description: {
+    fontSize: 12,
+    fontWeight: "bold",
+    textAlign: "left",
+    color: "#333",
+    marginTop: 10,
+  },
+
+  header_info: {
+    fontSize: 12,
+    fontWeight: "normal",
+    textAlign: "left",
+  },
 
   tableHeader: { backgroundColor: "#ddd", fontWeight: "bold" },
+
   row: {
     flexDirection: "row",
     borderBottomWidth: 1,
@@ -61,15 +81,27 @@ export default function AppointmentReport({ data }) {
           <Text style={styles.header}>
             Scheduled Appointment Report (e-POD)
           </Text>
+          <Text style={styles.textDate}>TIMESTAMP</Text>
           <Text style={styles.date}>
-            {new Date().toLocaleDateString("en-US", {
-              month: "long",
-              day: "2-digit",
-              year: "numeric",
-            })}{" "}
-            - {new Date().toLocaleTimeString("en-US")}
+            {dayjs().tz("Asia/Manila").format("MMMM DD, YYYY - hh:mm A")}
           </Text>
-          <Text style={styles.textDate}>Date & Time Generated</Text>
+
+          <Text style={styles.header_description}>WAREHOUSE NAME</Text>
+          {data.map((item, index) => (
+            <Text key={index} style={styles.header_info}>
+              {item.warehouse_name}
+            </Text>
+          ))}
+
+          <Text style={styles.header_description}>WAREHOUSE ADDRESS</Text>
+          {data.map((item, index) => (
+            <Text
+              key={index}
+              style={[styles.header_info, { textTransform: "capitalize" }]}
+            >
+              {item.warehouse_address}
+            </Text>
+          ))}
         </View>
 
         <View style={[styles.row, styles.tableHeader]}>
@@ -78,6 +110,7 @@ export default function AppointmentReport({ data }) {
           <Text style={styles.column}>Plate No.</Text>
           <Text style={styles.column}>Appt. Date</Text>
           <Text style={styles.column}>Appt. Time</Text>
+          <Text style={styles.column}>Activity</Text>
           <Text style={styles.column}>Driver Name</Text>
           <Text style={styles.column}>Helper Name</Text>
           <Text style={styles.column}>Parking Slot</Text>
@@ -103,6 +136,7 @@ export default function AppointmentReport({ data }) {
                   .tz("Asia/Manila")
                   .format("hh:mm A")}
               </Text>
+              <Text style={styles.column}>{item.activity || "-"}</Text>
               <Text style={styles.column}>{item.driver_name || "-"}</Text>
               <Text style={styles.column}>{item.helper_name || "-"}</Text>
 

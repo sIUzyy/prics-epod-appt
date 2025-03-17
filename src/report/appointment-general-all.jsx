@@ -36,11 +36,16 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 12,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#333",
+    fontWeight: "normal",
+    textAlign: "left",
   },
-  textDate: { fontSize: 10, fontWeight: "normal", textAlign: "center" },
+  textDate: {
+    fontSize: 12,
+    fontWeight: "bold",
+    textAlign: "left",
+    color: "#333",
+    marginTop: 10,
+  },
 
   tableHeader: { backgroundColor: "#ddd", fontWeight: "bold" },
   row: {
@@ -55,21 +60,16 @@ const styles = StyleSheet.create({
 export default function AppointmentGeneralAll({ data }) {
   return (
     <Document>
-      <Page size="LETTER" orientation="landscape" style={styles.page}>
+      <Page size="LEGAL" orientation="landscape" style={styles.page}>
         <View style={styles.section}>
           <Image src={prics_logo} style={styles.logo} />
           <Text style={styles.header}>
             Report of All Scheduled Appointments (e-POD)
           </Text>
+          <Text style={styles.textDate}>TIMESTAMP</Text>
           <Text style={styles.date}>
-            {new Date().toLocaleDateString("en-US", {
-              month: "long",
-              day: "2-digit",
-              year: "numeric",
-            })}{" "}
-            - {new Date().toLocaleTimeString("en-US")}
+            {dayjs().tz("Asia/Manila").format("MMMM DD, YYYY - hh:mm A")}
           </Text>
-          <Text style={styles.textDate}>Date & Time Generated</Text>
         </View>
 
         <View style={[styles.row, styles.tableHeader]}>
@@ -78,6 +78,9 @@ export default function AppointmentGeneralAll({ data }) {
           <Text style={styles.column}>Plate No.</Text>
           <Text style={styles.column}>Appt. Date</Text>
           <Text style={styles.column}>Appt. Time</Text>
+          <Text style={styles.column}>Warehouse Name</Text>
+          <Text style={styles.column}>Warehouse Address</Text>
+          <Text style={styles.column}>Activity</Text>
           <Text style={styles.column}>Driver Name</Text>
           <Text style={styles.column}>Helper Name</Text>
           <Text style={styles.column}>Parking Slot</Text>
@@ -103,6 +106,9 @@ export default function AppointmentGeneralAll({ data }) {
                   .tz("Asia/Manila")
                   .format("hh:mm A")}
               </Text>
+              <Text style={styles.column}>{item.warehouse_name || "-"}</Text>
+              <Text style={styles.column}>{item.warehouse_address || "-"}</Text>
+              <Text style={styles.column}>{item.activity || "-"}</Text>
               <Text style={styles.column}>{item.driver_name || "-"}</Text>
               <Text style={styles.column}>{item.helper_name || "-"}</Text>
 

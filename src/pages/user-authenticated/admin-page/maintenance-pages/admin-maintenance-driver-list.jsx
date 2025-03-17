@@ -32,7 +32,6 @@ export default function AdminMaintenanceDriverList() {
         const data = response.data.driver;
 
         setDriverData(data);
-        console.log(data);
       } catch (error) {
         console.error("Failed to fetch truck:", error);
 

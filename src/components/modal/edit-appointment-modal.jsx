@@ -7,7 +7,7 @@ import {
 } from "@headlessui/react";
 
 // ---- icon ----
-import { CalendarPlus, ChevronDown } from "lucide-react";
+import { Pencil, ChevronDown } from "lucide-react";
 
 // ---- props validation ----
 import PropTypes from "prop-types";
@@ -62,6 +62,9 @@ export default function EditAppointmentModal({
     plate_no,
     appointment_date,
     appointment_time,
+    activity,
+    warehouse_name,
+    warehouse_address,
   } = selectedAppointment || {}; // Prevents errors if `selectedAppointment` is null/undefined
 
   // auto-generated
@@ -76,29 +79,40 @@ export default function EditAppointmentModal({
   );
 
   // state for fields
+  const [editWarehouseAddress, setEditWarehouseAddress] =
+    useState(warehouse_address);
+  const [editWarehouseName, setEditWarehouseName] = useState(warehouse_name);
   const [editCarrierName, setEditCarrierName] = useState(carrier_name);
+  const [editParkingSlot, setEditParkingSlot] = useState(parking_slot);
   const [editDriverName, setEditDriverName] = useState(driver_name);
   const [editHelperName, setEditHelperName] = useState(helper_name);
-  const [editParkingSlot, setEditParkingSlot] = useState(parking_slot);
   const [editDock, setEditDock] = useState(dock);
 
   // state for selected plate no.
+  const [editSelectedActivity, setEditSelectedActivity] = useState(activity);
   const [editSelectedPlate, setEditSelectedPlate] = useState(plate_no);
 
   // state for truck data ( get the plate no)
   const [truckData, setTruckData] = useState([]);
 
+  // state for activity data
+  const [activityData, setActivityData] = useState([]);
+
   // loading state
   const [isLoading, setIsLoading] = useState(false);
   const [, setIsTruckLoading] = useState(false);
+  const [, setIsActivityLoading] = useState(false);
 
   // error state
+  const [warehouseAddressError, setWarehouseAddressError] = useState("");
+  const [selectedActivityError, setSelectedActivityError] = useState("");
+  const [warehouseNameError, setWarehouseNameError] = useState("");
+  const [selectedPlateError, setSelectedPlateError] = useState("");
+  const [parkingSlotError, setParkingSlotError] = useState("");
   const [carrierNameError, setCarrierNameError] = useState("");
   const [driverNameError, setDriverNameError] = useState("");
   const [helperNameError, setHelperNameError] = useState("");
-  const [parkingSlotError, setParkingSlotError] = useState("");
   const [dockError, setDockError] = useState("");
-  const [selectedPlateError, setSelectedPlateError] = useState("");
 
   // function to get the list of plate no
   useEffect(() => {
@@ -129,6 +143,36 @@ export default function EditAppointmentModal({
     fetchPlateNo();
   }, []);
 
+  // function to get the list of activity
+  useEffect(() => {
+    const fetchActivity = async () => {
+      setIsActivityLoading(true);
+
+      try {
+        const response = await axios.get(`${API_ENDPOINT}/api/activity`);
+        const data = response.data.activity;
+
+        setActivityData(data);
+
+        // eslint-disable-next-line no-unused-vars
+      } catch (err) {
+        toast.error(
+          "We could not retrieve your activity data. Please try again later.",
+          {
+            style: {
+              backgroundColor: "#ff4d4d",
+              color: "#fff",
+            },
+          }
+        );
+      } finally {
+        setIsActivityLoading(false);
+      }
+    };
+
+    fetchActivity();
+  }, []);
+
   // function to handle update appointment
   const handleUpdateAppointment = async (e) => {
     e.preventDefault();
@@ -136,24 +180,41 @@ export default function EditAppointmentModal({
 
     if (
       !editCarrierName &&
+      !editWarehouseName &&
+      !editWarehouseAddress &&
       !editDriverName &&
       !editHelperName &&
       !editParkingSlot &&
       !editDock &&
-      !editSelectedPlate
+      !editSelectedPlate &&
+      !editSelectedActivity
     ) {
       setCarrierNameError("Carrier name cannot be empty.");
+      setWarehouseNameError("Warehouse name cannot be empty.");
+      setWarehouseAddressError("Warehouse address cannot be empty.");
       setDriverNameError("Driver name cannot be empty.");
       setHelperNameError("Helper name cannot be empty.");
       setParkingSlotError("Parking slot cannot be empty.");
       setDockError("Dock cannot be empty.");
       setSelectedPlateError("Please select a plate no.");
+      setSelectedActivityError("Please select an activity");
       setIsLoading(false);
       return;
     }
 
     if (!editCarrierName) {
       setCarrierNameError("Carrier name cannot be empty.");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!editWarehouseName) {
+      setWarehouseNameError("Warehouse name cannot be empty.");
+      setIsLoading(false);
+      return;
+    }
+    if (!editWarehouseAddress) {
+      setWarehouseAddressError("Warehouse address cannot be empty.");
       setIsLoading(false);
       return;
     }
@@ -183,16 +244,25 @@ export default function EditAppointmentModal({
       return;
     }
 
+    if (!editSelectedActivity) {
+      setSelectedActivityError("Please select an activity");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const updatedAppointmentData = {
         appointment_date: editSelectedDate.toISOString(),
         appointment_time: editSelectedTime.toISOString(),
         carrier_name: editCarrierName,
+        warehouse_name: editWarehouseName,
+        warehouse_address: editWarehouseAddress,
         driver_name: editDriverName,
         helper_name: editHelperName,
         parking_slot: editParkingSlot,
         dock: editDock,
         plate_no: editSelectedPlate,
+        activity: editSelectedActivity,
       };
 
       const response = await axios.patch(
@@ -241,10 +311,9 @@ export default function EditAppointmentModal({
             <div className="bg-white   px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <DialogTitle
                 as="h1"
-                className="font-inter flex items-center gap-x-2 font-medium text-base"
+                className="font-inter flex items-center gap-x-2 font-medium text-base tracking-wider"
               >
-                <CalendarPlus size={20} /> EDIT APPOINTMENT ID:{" "}
-                {editAppointmentId}
+                <Pencil size={20} /> Edit Appointment Id: {editAppointmentId}
               </DialogTitle>
 
               <div className="mt-5 flex gap-x-5">
@@ -324,7 +393,7 @@ export default function EditAppointmentModal({
                         placeholder={
                           carrierNameError
                             ? carrierNameError
-                            : "Enter Carrier Name"
+                            : "Enter carrier name"
                         }
                         value={editCarrierName}
                         onChange={(e) => {
@@ -349,6 +418,70 @@ export default function EditAppointmentModal({
                   <div className="flex gap-x-5 mt-5">
                     <div className="flex-1">
                       <label className="text-sm font-inter text-[#979090]">
+                        Warehouse Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={
+                          warehouseNameError
+                            ? warehouseNameError
+                            : "Enter warehouse name"
+                        }
+                        value={editWarehouseName}
+                        onChange={(e) => {
+                          setEditWarehouseName(e.target.value);
+                          if (warehouseNameError) setWarehouseNameError("");
+                        }}
+                        className={`border p-4 w-full mt-1 rounded-md focus:outline-none focus:ring-2 
+                          ${
+                            warehouseNameError
+                              ? "border-red-500 focus:ring-red-500 placeholder-red-500"
+                              : "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+                          } ${
+                          selectedAppointment?.status === "Completed"
+                            ? "cursor-not-allowed opacity-50"
+                            : ""
+                        }`}
+                        disabled={selectedAppointment?.status === "Completed"}
+                      />
+                    </div>
+
+                    <div className="flex-1">
+                      <label className="text-sm font-inter text-[#979090]">
+                        Warehouse Address{" "}
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={
+                          warehouseAddressError
+                            ? warehouseAddressError
+                            : "Enter warehouse address"
+                        }
+                        value={editWarehouseAddress}
+                        onChange={(e) => {
+                          setEditWarehouseAddress(e.target.value);
+                          if (warehouseAddressError)
+                            setWarehouseAddressError("");
+                        }}
+                        className={`border p-4 w-full mt-1 rounded-md focus:outline-none focus:ring-2 
+                          ${
+                            warehouseAddressError
+                              ? "border-red-500 focus:ring-red-500 placeholder-red-500"
+                              : "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+                          } ${
+                          selectedAppointment?.status === "Completed"
+                            ? "cursor-not-allowed opacity-50"
+                            : ""
+                        }`}
+                        disabled={selectedAppointment?.status === "Completed"}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-x-5 mt-5">
+                    <div className="flex-1">
+                      <label className="text-sm font-inter text-[#979090]">
                         Driver Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -356,7 +489,7 @@ export default function EditAppointmentModal({
                         placeholder={
                           driverNameError
                             ? driverNameError
-                            : "Enter Driver Name"
+                            : "Enter driver name"
                         }
                         value={editDriverName}
                         onChange={(e) => {
@@ -386,7 +519,7 @@ export default function EditAppointmentModal({
                         placeholder={
                           helperNameError
                             ? helperNameError
-                            : "Enter Helper Name"
+                            : "Enter helper name"
                         }
                         value={editHelperName}
                         onChange={(e) => {
@@ -418,7 +551,7 @@ export default function EditAppointmentModal({
                         placeholder={
                           parkingSlotError
                             ? parkingSlotError
-                            : "Enter Parking Slot"
+                            : "Enter parking slot"
                         }
                         value={editParkingSlot}
                         onChange={(e) => {
@@ -446,7 +579,7 @@ export default function EditAppointmentModal({
                       </label>
                       <input
                         type="text"
-                        placeholder={dockError ? dockError : "Enter Dock"}
+                        placeholder={dockError ? dockError : "Enter dock"}
                         value={editDock}
                         onChange={(e) => {
                           setEditDock(e.target.value);
@@ -503,11 +636,62 @@ export default function EditAppointmentModal({
                           <option value="">
                             {selectedPlateError
                               ? selectedPlateError
-                              : "Select Plate No."}
+                              : "Select plate no."}
                           </option>
                           {truckData.map((plateNo, index) => (
                             <option key={index} value={plateNo.truckPlateNo}>
                               {plateNo.truckPlateNo}
+                            </option>
+                          ))}
+                        </select>
+
+                        {/* Custom Arrow */}
+                        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                          <ChevronDown className="text-gray-400" size={20} />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex-1">
+                      <label className="text-sm font-inter text-[#979090]">
+                        Activity <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative mt-0">
+                        <select
+                          className={`border p-4 w-full mt-1 rounded-md focus:outline-none focus:ring-2 
+                          ${
+                            selectedActivityError
+                              ? "border-red-500 focus:ring-red-500 text-red-500"
+                              : editSelectedActivity
+                              ? "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+                              : "text-gray-400"
+                          } 
+                          outline-0 appearance-none pr-10
+                          ${
+                            ["In Progress", "Completed"].includes(
+                              selectedAppointment?.status
+                            )
+                              ? "cursor-not-allowed opacity-50"
+                              : ""
+                          }`}
+                          value={editSelectedActivity}
+                          onChange={(e) => {
+                            setEditSelectedActivity(e.target.value);
+                            if (selectedActivityError)
+                              setSelectedActivityError("");
+                          }}
+                          disabled={["In Progress", "Completed"].includes(
+                            selectedAppointment?.status
+                          )}
+                        >
+                          <option value="">
+                            {selectedActivityError
+                              ? selectedActivityError
+                              : "Select select activity"}
+                          </option>
+                          {activityData.map((item, index) => (
+                            <option key={index} value={item.activityName}>
+                              {item.activityName}
                             </option>
                           ))}
                         </select>

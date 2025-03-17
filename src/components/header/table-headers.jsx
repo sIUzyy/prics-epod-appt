@@ -32,6 +32,9 @@ export const ADMIN_APPOINTMENT_TABLE_HEADERS = [
   "Plate No.",
   "Appt Date",
   "Appt Time",
+  "Warehouse Name",
+  "Warehouse Address",
+  "Activity",
   "Driver Name",
   "Helper Name",
   "Parking Slot",
@@ -41,6 +44,21 @@ export const ADMIN_APPOINTMENT_TABLE_HEADERS = [
   "Status",
   "Gate Pass",
   "Report",
+  "Action",
+];
+
+export const ADMIN_USER_LIST_TABLE_HEADERS = [
+  "No",
+  "Guard Name",
+  "Username",
+  "Role",
+  "Action",
+];
+
+export const ADMIN_ACTIVITY_LIST_TABLE_HEADERS = [
+  "No",
+  "Activity Name",
+  "Description",
   "Action",
 ];
 

@@ -32,7 +32,6 @@ export default function AdminMaintenanceTruckList() {
         const data = response.data.truck;
 
         setTruckData(data);
-        console.log(data);
       } catch (error) {
         console.error("Failed to fetch truck:", error);
 

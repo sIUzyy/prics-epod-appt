@@ -89,10 +89,10 @@ export default function DeleteModal({ open, setOpen, selectedTrackingNo }) {
             <div className="bg-white   px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <DialogTitle
                 as="h1"
-                className="font-inter flex items-center gap-x-2 font-medium text-base"
+                className="font-inter flex items-center gap-x-2 font-medium text-base tracking-wider"
               >
-                <TriangleAlert size={25} className="text-red-500" /> Are you
-                sure you want to delete {selectedTrackingNo}?
+                <TriangleAlert size={25} className="text-red-500" /> Confirm
+                deletion of Tracking No. {selectedTrackingNo}?
               </DialogTitle>
 
               <div className="mt-5 ">

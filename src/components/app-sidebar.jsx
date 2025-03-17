@@ -21,7 +21,6 @@ import {
   LayoutDashboard,
   CalendarPlus,
   Settings2,
-  UserRoundPlus,
   ChevronDown,
   Truck,
   Users,
@@ -30,6 +29,7 @@ import {
   Calendar,
   Map,
   Warehouse,
+  Package,
 } from "lucide-react";
 
 // image
@@ -62,9 +62,15 @@ const adminMenu = [
     // add a submenu under maintenance menu
     submenu: [
       {
-        title: "Create Account",
+        title: "User List",
         url: "/admin/maintenance/create-account",
-        sub_icon: <UserRoundPlus size={18} />,
+        sub_icon: <Users size={18} />,
+      },
+
+      {
+        title: "Activity",
+        url: "/admin/maintenance/activity",
+        sub_icon: <Package size={18} />,
       },
 
       {

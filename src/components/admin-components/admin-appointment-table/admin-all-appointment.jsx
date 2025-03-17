@@ -293,6 +293,16 @@ export default function AllAppointment() {
                                 .format("hh:mm A")}
                             </td>
                             <td className="td-admin-table capitalize">
+                              {item.warehouse_name}
+                            </td>
+
+                            <td className="td-admin-table capitalize">
+                              {item.warehouse_address}
+                            </td>
+                            <td className="td-admin-table capitalize">
+                              {item.activity}
+                            </td>
+                            <td className="td-admin-table capitalize">
                               {item.driver_name}
                             </td>
                             <td className="td-admin-table capitalize">

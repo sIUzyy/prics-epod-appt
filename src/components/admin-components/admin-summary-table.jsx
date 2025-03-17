@@ -6,6 +6,7 @@ import PropTypes from "prop-types"; // prop validation
 import { Link } from "react-router"; // react-router-dom
 import { useDebounce } from "react-use"; // npm install react-use. this is a hook that helps us to debounce the search input.
 import { PDFDownloadLink } from "@react-pdf/renderer"; // react-pdf
+import dayjs from "dayjs"; // dayjs
 
 // ---- utils ----
 import { DELIVERY_STATUS_COLOR } from "../../utils/Color"; // color
@@ -45,26 +46,22 @@ export default function AdminSummaryTable({ data, preDeliveryData }) {
   const filteredData = useMemo(() => {
     return data
       .filter((item) => {
-        const shippedDate = new Date(item.shippedDate);
-        if (startDate && shippedDate < startDate) return false;
+        const shippedDate = dayjs(item.shippedDate);
+        if (startDate && shippedDate.isBefore(dayjs(startDate))) return false;
         if (endDate) {
-          const endOfDay = new Date(endDate);
-          endOfDay.setHours(23, 59, 59, 999);
-          if (shippedDate > endOfDay) return false;
+          const endOfDay = dayjs(endDate).endOf("day");
+          if (shippedDate.isAfter(endOfDay)) return false;
         }
 
-        // Find matching pre-delivery item
         const preDeliveryItem = preDeliveryData.find(
           (pre) => pre.pre_delivery_trackingNo === item.trackingNo
         );
 
-        // Search filter logic
         if (debouncedSearchTerm) {
           const searchLower = debouncedSearchTerm
             .toLowerCase()
             .replace(/\s+/g, "");
 
-          // Check normal item fields
           const matchesItem = Object.values(item).some((value) => {
             if (typeof value === "string") {
               return value
@@ -78,7 +75,6 @@ export default function AdminSummaryTable({ data, preDeliveryData }) {
             return false;
           });
 
-          // Check preDeliveryItem fields (especially pre_delivery_receivedBy)
           const matchesPreDelivery = preDeliveryItem
             ? Object.values(preDeliveryItem).some((value) => {
                 if (typeof value === "string") {
@@ -97,11 +93,8 @@ export default function AdminSummaryTable({ data, preDeliveryData }) {
         return true;
       })
       .sort((a, b) => {
-        const epodStatusA = a.epodStatus.toLowerCase();
-        const epodStatusB = b.epodStatus.toLowerCase();
-        if (epodStatusA === "shipped" && epodStatusB !== "shipped") return -1;
-        if (epodStatusB !== "shipped" && epodStatusB === "shipped") return 1;
-        return new Date(b.shippedDate) - new Date(a.shippedDate);
+        // Sort by createdAt in descending order (latest created first)
+        return dayjs(b.createdAt).isBefore(dayjs(a.createdAt)) ? -1 : 1;
       });
   }, [data, preDeliveryData, debouncedSearchTerm, startDate, endDate]);
 
@@ -264,39 +257,9 @@ export default function AdminSummaryTable({ data, preDeliveryData }) {
                               {item.totalCbm} kg
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                              {(() => {
-                                const getStatus = (item, preDeliveryItem) => {
-                                  if (!preDeliveryItem) return "In Transit";
-
-                                  // destructure
-                                  const {
-                                    pre_delivery_trackingNo,
-                                    pre_delivery_products,
-                                  } = preDeliveryItem;
-
-                                  // check if pre_delivery tracking no is greater to 0
-                                  const hasTrackingNo =
-                                    pre_delivery_trackingNo.length > 0;
-
-                                  // check if pre delivery products length is equal to data product code
-                                  const allProductsDelivered =
-                                    pre_delivery_products.length ===
-                                    item.productCodes.length;
-
-                                  if (allProductsDelivered) return "Delivered";
-                                  if (hasTrackingNo) return "In Receiving";
-
-                                  return "In Transit";
-                                };
-
-                                const status = getStatus(item, preDeliveryItem);
-
-                                return (
-                                  <span className={getStatusClass(status)}>
-                                    {status}
-                                  </span>
-                                );
-                              })()}
+                              <span className={getStatusClass(item.epodStatus)}>
+                                {item.epodStatus}
+                              </span>
                             </td>
 
                             <td className="td-admin-table w-full  flex justify-center  ">

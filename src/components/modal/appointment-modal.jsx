@@ -41,6 +41,9 @@ import { toast } from "sonner";
 // ---- component ----
 import LoadingSpinner from "../loading/loading-spinner";
 
+// ---- utils ----
+import { hasExistingAppointment } from "@/utils/checkAppointment";
+
 // Extend dayjs with timezone plugins
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -61,6 +64,8 @@ export default function AppointmentModal({ open, setOpen }) {
 
   // state for fields
   const [carrierName, setCarrierName] = useState("");
+  const [warehouseName, setWarehouseName] = useState("");
+  const [warehouseAddress, setWarehouseAddress] = useState("");
   const [driverName, setDriverName] = useState("");
   const [helperName, setHelperName] = useState("");
   const [parkingSlot, setParkingSlot] = useState("");
@@ -69,23 +74,37 @@ export default function AppointmentModal({ open, setOpen }) {
   // state for selected plate no.
   const [selectedPlate, setSelectedPlate] = useState("");
 
+  // state for selected activity
+  const [selectedActivity, setSelectedActivity] = useState("");
+
   // appointment status
   const [status] = useState("Pending");
 
   // state for truck data ( get the plate no)
   const [truckData, setTruckData] = useState([]);
 
+  // state for activity data
+  const [activityData, setActivityData] = useState([]);
+
+  // state for appointment data list
+  const [appointmentData, setAppointmentData] = useState([]);
+
   // loading state
+  const [, setIsAppointmentLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [, setIsActivityLoading] = useState(false);
   const [, setIsTruckLoading] = useState(false);
 
   // error state
   const [carrierNameError, setCarrierNameError] = useState("");
+  const [warehouseNameError, setWarehouseNameError] = useState("");
+  const [warehouseAddressError, setWarehouseAddressError] = useState("");
   const [driverNameError, setDriverNameError] = useState("");
   const [helperNameError, setHelperNameError] = useState("");
   const [parkingSlotError, setParkingSlotError] = useState("");
   const [dockError, setDockError] = useState("");
   const [selectedPlateError, setSelectedPlateError] = useState("");
+  const [selectedActivityError, setSelectedActivityError] = useState("");
 
   // function to get the list of plate no
   useEffect(() => {
@@ -100,7 +119,7 @@ export default function AppointmentModal({ open, setOpen }) {
         // eslint-disable-next-line no-unused-vars
       } catch (err) {
         toast.error(
-          "We could not load your plate no. list data. Please try again later.",
+          "We could not retrieve your plate number data. Please try again later.",
           {
             style: {
               backgroundColor: "#ff4d4d",
@@ -116,6 +135,63 @@ export default function AppointmentModal({ open, setOpen }) {
     fetchPlateNo();
   }, []);
 
+  // function to get the list of activity
+  useEffect(() => {
+    const fetchActivity = async () => {
+      setIsActivityLoading(true);
+
+      try {
+        const response = await axios.get(`${API_ENDPOINT}/api/activity`);
+        const data = response.data.activity;
+
+        setActivityData(data);
+
+        // eslint-disable-next-line no-unused-vars
+      } catch (err) {
+        toast.error(
+          "We could not retrieve your activity data. Please try again later.",
+          {
+            style: {
+              backgroundColor: "#ff4d4d",
+              color: "#fff",
+            },
+          }
+        );
+      } finally {
+        setIsActivityLoading(false);
+      }
+    };
+
+    fetchActivity();
+  }, []);
+
+  // function to fetch all the appointments
+  useEffect(() => {
+    const fetchAppointmentData = async () => {
+      setIsAppointmentLoading(true);
+      try {
+        const response = await axios.get(`${API_ENDPOINT}/api/appointment`);
+        const data = response.data.appointments;
+        setAppointmentData(data);
+      } catch (error) {
+        console.error("Failed to fetch appointment", error);
+        toast.error(
+          "We could not retrieve your appointment data. Please try again later.",
+          {
+            style: {
+              backgroundColor: "#ff4d4d",
+              color: "#fff",
+            },
+          }
+        );
+      } finally {
+        setIsAppointmentLoading(false);
+      }
+    };
+
+    fetchAppointmentData();
+  }, []);
+
   // function to create an appointment
   const handleCreateAppointment = async (e) => {
     e.preventDefault();
@@ -123,24 +199,40 @@ export default function AppointmentModal({ open, setOpen }) {
 
     if (
       !carrierName &&
+      !warehouseName &&
+      !warehouseAddress &&
       !driverName &&
       !helperName &&
       !parkingSlot &&
       !dock &&
-      !selectedPlateError
+      !selectedPlate &&
+      !selectedActivity
     ) {
       setCarrierNameError("Carrier name cannot be empty.");
+      setWarehouseNameError("Warehouse name cannot be empty.");
+      setWarehouseAddressError("Warehouse address cannot be empty.");
       setDriverNameError("Driver name cannot be empty.");
       setHelperNameError("Helper name cannot be empty.");
       setParkingSlotError("Parking slot cannot be empty.");
       setDockError("Dock cannot be empty.");
       setSelectedPlateError("Please select a plate no.");
+      setSelectedActivityError("Please select an activity");
       setIsLoading(false);
       return;
     }
 
     if (!carrierName) {
       setCarrierNameError("Carrier name cannot be empty.");
+      setIsLoading(false);
+      return;
+    }
+    if (!warehouseName) {
+      setWarehouseNameError("Warehouse name cannot be empty.");
+      setIsLoading(false);
+      return;
+    }
+    if (!warehouseAddress) {
+      setWarehouseAddressError("Warehouse address cannot be empty.");
       setIsLoading(false);
       return;
     }
@@ -170,17 +262,44 @@ export default function AppointmentModal({ open, setOpen }) {
       return;
     }
 
+    if (!selectedActivity) {
+      setSelectedActivityError("Please select an activity");
+      setIsLoading(false);
+      return;
+    }
+
+    // check if the plate no have alr an appointment
+    if (hasExistingAppointment(appointmentData, selectedPlate, selectedDate)) {
+      const formattedDate = dayjs(selectedDate)
+        .tz("Asia/Manila")
+        .format("MMMM D, YYYY"); // Example: March 17, 2025 02:30 PM
+      toast.warning(
+        `Plate No. ${selectedPlate} already has an appointment on the ${formattedDate}.`,
+        {
+          style: {
+            backgroundColor: "#ffa500",
+            color: "#fff",
+          },
+        }
+      );
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const appointmentData = {
         appointment_id: appointmentId,
         appointment_date: selectedDate.toISOString(),
         appointment_time: selectedTime.toISOString(),
         carrier_name: carrierName,
+        warehouse_name: warehouseName,
+        warehouse_address: warehouseAddress,
         driver_name: driverName,
         helper_name: helperName,
         parking_slot: parkingSlot,
         dock,
         plate_no: selectedPlate,
+        activity: selectedActivity,
         status,
       };
 
@@ -203,6 +322,7 @@ export default function AppointmentModal({ open, setOpen }) {
         setParkingSlot("");
         setDock("");
         setSelectedPlate("");
+        setSelectedActivity("");
         setOpen(false);
 
         setTimeout(() => {
@@ -245,9 +365,9 @@ export default function AppointmentModal({ open, setOpen }) {
             <div className="bg-white   px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <DialogTitle
                 as="h1"
-                className="font-inter flex items-center gap-x-2 font-medium text-base"
+                className="font-inter flex items-center gap-x-2 font-medium text-base tracking-wider"
               >
-                <CalendarPlus size={20} /> CREATE AN APPOINTMENT
+                <CalendarPlus size={20} /> Create an Appointment
               </DialogTitle>
 
               <div className="mt-5 flex gap-x-5">
@@ -294,7 +414,7 @@ export default function AppointmentModal({ open, setOpen }) {
                         placeholder={
                           carrierNameError
                             ? carrierNameError
-                            : "Enter Carrier Name"
+                            : "Enter carrier name"
                         }
                         value={carrierName}
                         onChange={(e) => {
@@ -314,6 +434,60 @@ export default function AppointmentModal({ open, setOpen }) {
                   <div className="flex gap-x-5 mt-5">
                     <div className="flex-1">
                       <label className="text-sm font-inter text-[#979090]">
+                        Warehouse Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={
+                          warehouseNameError
+                            ? warehouseNameError
+                            : "Enter warehouse name"
+                        }
+                        value={warehouseName}
+                        onChange={(e) => {
+                          setWarehouseName(e.target.value);
+                          if (warehouseNameError) setWarehouseNameError("");
+                        }}
+                        className={`border p-4 w-full mt-1 rounded-md focus:outline-none focus:ring-2 
+                          ${
+                            warehouseNameError
+                              ? "border-red-500 focus:ring-red-500 placeholder-red-500"
+                              : "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+                          }`}
+                      />
+                    </div>
+
+                    <div className="flex-1">
+                      <label className="text-sm font-inter text-[#979090]">
+                        Warehouse Address{" "}
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={
+                          warehouseAddressError
+                            ? warehouseAddressError
+                            : "Enter warehouse address"
+                        }
+                        value={warehouseAddress}
+                        onChange={(e) => {
+                          setWarehouseAddress(e.target.value);
+                          if (warehouseAddressError)
+                            setWarehouseAddressError("");
+                        }}
+                        className={`border p-4 w-full mt-1 rounded-md focus:outline-none focus:ring-2 
+                          ${
+                            warehouseAddressError
+                              ? "border-red-500 focus:ring-red-500 placeholder-red-500"
+                              : "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+                          }`}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-x-5 mt-5">
+                    <div className="flex-1">
+                      <label className="text-sm font-inter text-[#979090]">
                         Driver Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -321,7 +495,7 @@ export default function AppointmentModal({ open, setOpen }) {
                         placeholder={
                           driverNameError
                             ? driverNameError
-                            : "Enter Driver Name"
+                            : "Enter driver name"
                         }
                         value={driverName}
                         onChange={(e) => {
@@ -346,7 +520,7 @@ export default function AppointmentModal({ open, setOpen }) {
                         placeholder={
                           helperNameError
                             ? helperNameError
-                            : "Enter Helper Name"
+                            : "Enter helper name"
                         }
                         value={helperName}
                         onChange={(e) => {
@@ -373,7 +547,7 @@ export default function AppointmentModal({ open, setOpen }) {
                         placeholder={
                           parkingSlotError
                             ? parkingSlotError
-                            : "Enter Parking Slot"
+                            : "Enter parking slot"
                         }
                         value={parkingSlot}
                         onChange={(e) => {
@@ -395,7 +569,7 @@ export default function AppointmentModal({ open, setOpen }) {
                       </label>
                       <input
                         type="text"
-                        placeholder={dockError ? dockError : "Enter Dock"}
+                        placeholder={dockError ? dockError : "Enter dock"}
                         value={dock}
                         onChange={(e) => {
                           setDock(e.target.value);
@@ -436,11 +610,52 @@ export default function AppointmentModal({ open, setOpen }) {
                           <option value="">
                             {selectedPlateError
                               ? selectedPlateError
-                              : "Select Plate No."}
+                              : "Select plate no."}
                           </option>
                           {truckData.map((plateNo, index) => (
                             <option key={index} value={plateNo.truckPlateNo}>
                               {plateNo.truckPlateNo}
+                            </option>
+                          ))}
+                        </select>
+
+                        {/* Custom Arrow */}
+                        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                          <ChevronDown className="text-gray-400" size={20} />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex-1">
+                      <label className="text-sm font-inter text-[#979090]">
+                        Activity <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative mt-0">
+                        <select
+                          className={`border p-4 w-full mt-1 rounded-md focus:outline-none focus:ring-2 
+                          ${
+                            selectedActivityError
+                              ? "border-red-500 focus:ring-red-500 text-red-500"
+                              : selectedActivity
+                              ? "border-gray-300 focus:ring-blue-500 placeholder-gray-400"
+                              : "text-gray-400"
+                          } 
+                          outline-0 appearance-none pr-10`}
+                          value={selectedActivity}
+                          onChange={(e) => {
+                            setSelectedActivity(e.target.value);
+                            if (selectedActivityError)
+                              setSelectedActivityError("");
+                          }}
+                        >
+                          <option value="">
+                            {selectedActivityError
+                              ? selectedActivityError
+                              : "Select activity"}
+                          </option>
+                          {activityData.map((item, index) => (
+                            <option key={index} value={item.activityName}>
+                              {item.activityName}
                             </option>
                           ))}
                         </select>

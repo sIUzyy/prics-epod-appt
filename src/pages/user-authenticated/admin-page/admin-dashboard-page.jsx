@@ -1,5 +1,5 @@
 // icons
-import { NotepadText, CalendarCheck2, User, Truck } from "lucide-react";
+import { NotepadText, CalendarCheck2, Truck } from "lucide-react";
 
 // shadcn component
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,9 +41,6 @@ export default function AdminOrderSummary() {
   // state to stored the truck data (to get the length)
   const [truckData, setTruckData] = useState([]);
 
-  // state to stored the user guard role data (to get the length)
-  const [userGuard, setUserGuard] = useState([]);
-
   // state to stored the appointment data
   const [appointmentData, setAppointmentData] = useState([]);
 
@@ -51,7 +48,6 @@ export default function AdminOrderSummary() {
   const [loadingShipments, setLoadingShipments] = useState(false);
   const [loadingPreDelivery, setLoadingPreDelivery] = useState(false);
   const [loadingTruckData, setLoadingTruckData] = useState(false);
-  const [loadingUserGuard, setLoadingUserGuard] = useState(false);
   const [loadingAppointment, setLoadingAppointment] = useState(false);
 
   // conditional
@@ -59,7 +55,6 @@ export default function AdminOrderSummary() {
     loadingShipments ||
     loadingPreDelivery ||
     loadingTruckData ||
-    loadingUserGuard ||
     loadingAppointment;
 
   // fetch all the shipment data
@@ -166,33 +161,6 @@ export default function AdminOrderSummary() {
     fetchTruckList();
   }, []);
 
-  // fetch the user guard role length
-  useEffect(() => {
-    const fetchUserGuardRoleList = async () => {
-      setLoadingUserGuard(true);
-
-      try {
-        const response = await axios.get(`${API_ENDPOINT}/api/user`);
-        setUserGuard(response.data.guards);
-      } catch (error) {
-        console.error(error);
-        toast.error(
-          "We could not load your user guard role data. Please try again later.",
-          {
-            style: {
-              backgroundColor: "#ff4d4d",
-              color: "#fff",
-            },
-          }
-        );
-      } finally {
-        setLoadingUserGuard(false);
-      }
-    };
-
-    fetchUserGuardRoleList();
-  }, []);
-
   // fetch the appointment data
   useEffect(() => {
     const fetchAppointmentData = async () => {
@@ -288,26 +256,6 @@ export default function AdminOrderSummary() {
                 <p className="text-sm text-[#6c757d] mt-5">
                   Use this tracking number to monitor the movement and status of
                   items within the warehouse.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className={"max-w-[320px]"}>
-              <CardHeader>
-                <div className="flex justify-between items-center ">
-                  <CardTitle className={"font-inter text-base font-medium"}>
-                    Total Users
-                  </CardTitle>
-                  <User size={25} />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <h1 className="text-5xl font-bebas tracking-wider">
-                  {userGuard.length > 0 ? userGuard.length : 0}
-                </h1>
-                <p className="text-sm text-[#6c757d] mt-5">
-                  Represents the total number of guards who will scan the
-                  barcode on the gatepass.
                 </p>
               </CardContent>
             </Card>
