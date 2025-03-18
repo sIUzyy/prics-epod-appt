@@ -113,7 +113,14 @@ export default function DeleteModal({ open, setOpen, selectedTrackingNo }) {
                 }
                 disabled={isLoading}
               >
-                {isLoading ? <LoadingSpinner /> : "Delete"}
+                {isLoading ? (
+                  <div className="flex items-center gap-x-2">
+                    Deleting
+                    <LoadingSpinner />
+                  </div>
+                ) : (
+                  "Delete"
+                )}
               </button>
               <button
                 type="button"

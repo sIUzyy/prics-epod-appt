@@ -30,6 +30,8 @@ import {
   Map,
   Warehouse,
   Package,
+  Clock12,
+  Clock3,
 } from "lucide-react";
 
 // image
@@ -102,11 +104,24 @@ const adminMenu = [
 
 // side-bar menu of security guard
 const securityMenu = [
+  // {
+  //   title: "Dashboard",
+  //   url: "/access-pass/security",
+  //   icon: <LayoutDashboard size={18} />,
+  // },
+
   {
-    title: "Dashboard",
-    url: "/access-pass/security",
-    icon: <LayoutDashboard size={18} />,
+    title: "Time In",
+    url: "/access-pass/time-in",
+    icon: <Clock12 size={18} />,
   },
+
+  {
+    title: "Time Out",
+    url: "/access-pass/time-out",
+    icon: <Clock3 size={18} />,
+  },
+
   {
     title: "Settings",
     url: "/access-pass/settings",

@@ -70,6 +70,40 @@ export default function AppointmentCard({ appt }) {
 
       <div className="my-5">
         <label className="text-sm font-inter text-[#979090] ">
+          Warehouse Name
+        </label>
+        <input
+          type="text"
+          value={appt.warehouse_name}
+          readOnly
+          className="p-4 w-full mt-2 rounded-md cursor-not-allowed bg-gray-100 outline-none"
+        />
+      </div>
+
+      <div className="my-5">
+        <label className="text-sm font-inter text-[#979090] ">
+          Warehouse Name
+        </label>
+        <input
+          type="text"
+          value={appt.warehouse_address}
+          readOnly
+          className="p-4 w-full mt-2 rounded-md cursor-not-allowed bg-gray-100 outline-none"
+        />
+      </div>
+
+      <div className="my-5">
+        <label className="text-sm font-inter text-[#979090] ">Activity</label>
+        <input
+          type="text"
+          value={appt.activity}
+          readOnly
+          className="p-4 w-full mt-2 rounded-md cursor-not-allowed bg-gray-100 outline-none"
+        />
+      </div>
+
+      <div className="my-5">
+        <label className="text-sm font-inter text-[#979090] ">
           Parking Slot
         </label>
         <input

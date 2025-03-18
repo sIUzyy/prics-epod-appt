@@ -69,7 +69,7 @@ export default function AttachedFile({ selectedProductCode, preDeliveryData }) {
               <Image
                 key={index}
                 // src={`http://localhost:5000/${image}`}
-                src={`https://prics-epod-backend.onrender.com/${image}`}
+                src={`https://prics-epod-backend.onrender.com/uploads/images/${image}`}
                 style={{
                   width: 400,
                   height: 300,

@@ -218,7 +218,13 @@ export default function UserListModal({ open, setOpen }) {
                 }
                 disabled={isLoading}
               >
-                {isLoading ? <LoadingSpinner /> : "Register"}
+                {isLoading ? (
+                  <div className="flex items-center gap-x-2">
+                    Registering <LoadingSpinner />
+                  </div>
+                ) : (
+                  "Register"
+                )}
               </button>
               <button
                 type="button"

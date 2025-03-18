@@ -83,8 +83,15 @@ const AdminMaintenanceWarehouseList = lazy(() =>
 );
 
 // src/pages/user-authenticated - security(guard)
-const SecurityDashboardPage = lazy(() =>
-  import("@/pages/user-authenticated/security-page/access-control-page")
+// const SecurityDashboardPage = lazy(() =>
+//   import("@/pages/user-authenticated/security-page/access-control-page")
+// );
+const SecurityTimeIn = lazy(() =>
+  import("@/pages/user-authenticated/security-page/access-time-in-page")
+);
+
+const SecurityTimeOut = lazy(() =>
+  import("@/pages/user-authenticated/security-page/access-time-out-page")
 );
 const SecuritySettingsPage = lazy(() =>
   import("@/pages/user-authenticated/security-page/security-settings-page")
@@ -280,12 +287,30 @@ const router = createBrowserRouter([
       </Suspense>
     ),
     children: [
-      { index: true, element: <Navigate to="security" replace /> },
+      { index: true, element: <Navigate to="time-in" replace /> },
+      // {
+      //   path: "security",
+      //   element: (
+      //     <Suspense fallback={""}>
+      //       <SecurityDashboardPage />
+      //     </Suspense>
+      //   ),
+      // },
+
       {
-        path: "security",
+        path: "time-in",
         element: (
           <Suspense fallback={""}>
-            <SecurityDashboardPage />
+            <SecurityTimeIn />
+          </Suspense>
+        ),
+      },
+
+      {
+        path: "time-out",
+        element: (
+          <Suspense fallback={""}>
+            <SecurityTimeOut />
           </Suspense>
         ),
       },

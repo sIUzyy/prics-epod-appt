@@ -11,6 +11,7 @@ import SearchBar from "@/components/search/search-bar"; // ---- search bar
 
 // ---- library ----
 import { UserPlus } from "lucide-react"; // ---- icons
+import { useDebounce } from "react-use"; // ---- npm install react-use. this is a hook that helps us to debounce the search input.
 
 // display on AdminOrderSummary page
 export default function UserListTable({ data }) {
@@ -18,22 +19,39 @@ export default function UserListTable({ data }) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // ---- state for handling the search input data (search engine)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+  // ---- state for pagination (pagination)
+  const [currentPage, setCurrentPage] = useState(1);
+
   // ---- state for selected id and username (delete)
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectedUsername, setSelectedUserName] = useState(null);
 
-  // ---- state for pagination (pagination)
-  const [currentPage, setCurrentPage] = useState(1);
+  // ---- useDebounce hook helps us to prevent making too many requests to the api (search engine)
+  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
+
+  // ---- filter activities based on search term
+  const filteredData = data.filter(
+    (user) =>
+      user.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+      user.username?.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+  );
 
   // ---- show 10 items per page (pagination)
   const itemsPerPage = 10;
 
   // ---- calculate total page (pagination)
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   // ---- get the current items for the page (pagination)
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = data.slice(startIndex, startIndex + itemsPerPage);
+  const currentItems = filteredData.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   // ---- function to handle delete modal
   const handleDeleteModal = (id, username) => {
@@ -65,10 +83,13 @@ export default function UserListTable({ data }) {
             <div className="p-1.5 min-w-full inline-block align-middle">
               <div className="border rounded-lg divide-y divide-gray-200">
                 <div className="py-5 px-4 flex justify-between items-center">
-                  <SearchBar />
+                  <SearchBar
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                  />
                   <div>
                     <button
-                      title="Add user account"
+                      title="Add User Account"
                       className="cursor-pointer"
                       onClick={() => setIsModalOpen(true)}
                     >

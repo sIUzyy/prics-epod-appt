@@ -152,7 +152,13 @@ export default function ActivityListModal({ open, setOpen }) {
                 }
                 disabled={isLoading}
               >
-                {isLoading ? <LoadingSpinner /> : "Create an Activity"}
+                {isLoading ? (
+                  <div className="flex items-center gap-x-2">
+                    Creating an Activity <LoadingSpinner />{" "}
+                  </div>
+                ) : (
+                  "Create an Activity"
+                )}
               </button>
               <button
                 type="button"

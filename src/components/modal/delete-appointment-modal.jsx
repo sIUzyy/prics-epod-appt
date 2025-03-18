@@ -117,7 +117,14 @@ export default function DeleteAppointmentModal({
                 }
                 disabled={isLoading}
               >
-                {isLoading ? <LoadingSpinner /> : "Delete"}
+                {isLoading ? (
+                  <div className="flex items-center gap-x-2">
+                    Deleting
+                    <LoadingSpinner />
+                  </div>
+                ) : (
+                  "Delete"
+                )}
               </button>
               <button
                 type="button"
