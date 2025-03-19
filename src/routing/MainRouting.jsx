@@ -36,6 +36,15 @@ const AdminOrderSummary = lazy(() =>
 const AdminOrderSummaryById = lazy(() =>
   import("@/pages/user-authenticated/admin-page/admin-by-tracking-no-page")
 );
+
+const AdminPriorityPage = lazy(() =>
+  import("@/pages/user-authenticated/admin-page/admin-priority-page")
+);
+const AdminPriorityPerPlateNoPage = lazy(() =>
+  import(
+    "@/pages/user-authenticated/admin-page/admin-priority-per-plateNo-page"
+  )
+);
 const AdminAppointmentPage = lazy(() =>
   import("@/pages/user-authenticated/admin-page/admin-appointment-page")
 );
@@ -189,6 +198,23 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={""}>
             <AdminOrderSummaryById />
+          </Suspense>
+        ),
+      },
+      {
+        path: "priority",
+        element: (
+          <Suspense fallback={""}>
+            <AdminPriorityPage />
+          </Suspense>
+        ),
+      },
+
+      {
+        path: "priority/:id",
+        element: (
+          <Suspense fallback={""}>
+            <AdminPriorityPerPlateNoPage />
           </Suspense>
         ),
       },

@@ -256,7 +256,8 @@ export default function AdminSummaryTable({ data, preDeliveryData }) {
                             <td className="td-admin-table">
                               {item.totalCbm} kg
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+
+                            <td className="td-admin-table capitalize">
                               <span className={getStatusClass(item.epodStatus)}>
                                 {item.epodStatus}
                               </span>

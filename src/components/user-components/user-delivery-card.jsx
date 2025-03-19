@@ -158,6 +158,15 @@ export default function UserDeliveryCard({ data, preDeliveryData }) {
               </div>
             </div>
 
+            {item.priority && (
+              <div className="my-5">
+                <h1 className="tracking-widest uppercase text-xs text-gray-500 ">
+                  Priority No.
+                </h1>
+                <h1 className="font-robo tracking-widest">{item.priority}</h1>
+              </div>
+            )}
+
             <div className="my-5">
               <h1 className="tracking-widest uppercase text-xs text-gray-500 ">
                 Customer name

@@ -312,21 +312,21 @@ export default function AllAppointment() {
                               {item.parking_slot}
                             </td>
                             <td className="td-admin-table">{item.dock}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                            <td className="td-admin-table">
                               {item.time_in
                                 ? dayjs(item.time_in).format(
                                     "MMMM D, YYYY hh:mm A"
                                   ) // Example: March 13, 2025 01:45 PM
                                 : "-"}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                            <td className="td-admin-table">
                               {item.time_out
                                 ? dayjs(item.time_out).format(
                                     "MMMM D, YYYY hh:mm A"
                                   ) // Example: March 13, 2025 01:45 PM
                                 : "-"}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                            <td className="td-admin-table capitalize">
                               <span className={getStatusClass(item.status)}>
                                 {item.status}
                               </span>

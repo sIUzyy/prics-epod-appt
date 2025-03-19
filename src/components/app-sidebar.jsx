@@ -32,6 +32,7 @@ import {
   Package,
   Clock12,
   Clock3,
+  ListOrdered,
 } from "lucide-react";
 
 // image
@@ -51,6 +52,12 @@ const adminMenu = [
     title: "Dashboard",
     url: "/admin/ordersummary",
     icon: <LayoutDashboard size={18} />,
+  },
+
+  {
+    title: "Order Priority",
+    url: "/admin/priority",
+    icon: <ListOrdered size={18} />,
   },
   {
     title: "Appointment",

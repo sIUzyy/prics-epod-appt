@@ -211,6 +211,9 @@ export default function UserTable({ data, preDeliveryData }) {
                             km
                           </td> */}
                           <td className="td-user-table">{item.rank}</td>
+                          <td className="td-user-table">
+                            {item.priority || " - "}
+                          </td>
                         </tr>
                       );
                     })}

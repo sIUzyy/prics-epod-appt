@@ -1,9 +1,10 @@
-import { useState } from "react"; // react
-
+// ---- react ----
+import { useState } from "react";
 import PropTypes from "prop-types"; // prop validation
 
-import OrderSummaryPagination from "../admin-order-summary-pagination"; // components
-import { ADMIN_TRUCK_LIST_TABLE_HEADERS } from "@/components/header/table-headers"; // components - header
+// ---- components ----
+import OrderSummaryPagination from "../admin-order-summary-pagination";
+import { ADMIN_TRUCK_LIST_TABLE_HEADERS } from "@/components/header/table-headers";
 // import TruckListModal from "@/components/modal/truck-list-modal";
 
 // import { Plus } from "lucide-react"; // icons
@@ -112,6 +113,12 @@ export default function TruckListTable({ data }) {
                 setCurrentPage={setCurrentPage}
                 totalPages={totalPages}
               />
+
+              {currentItems.length === 0 && (
+                <p className="text-gray-500 font-medium ml-5 py-5">
+                  No truck list available.
+                </p>
+              )}
             </div>
           </div>
         </div>

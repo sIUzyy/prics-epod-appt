@@ -26,6 +26,15 @@ export const ADMIN_PER_TRACKING_NO_TABLE_HEADERS = [
   "Attached File",
 ];
 
+export const ADMIN_PRIORITY_PER_PLATE_NO_TABLE_HEADERS = [
+  "Line",
+  "Tracking No",
+  "Customer Name",
+  "Address",
+  "Priority",
+  "Action",
+];
+
 export const ADMIN_APPOINTMENT_TABLE_HEADERS = [
   "Appt ID",
   "Carrier Name",
@@ -90,4 +99,5 @@ export const USER_DASHBOARD_TABLE_HEADERS = [
   "Delivery Status",
   // "Distance (km)",
   "Drop-off",
+  "Priority",
 ];
