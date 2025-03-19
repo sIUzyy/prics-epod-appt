@@ -203,7 +203,7 @@ export function AppSidebar() {
             {menuItems.map((item) => (
               <SidebarMenuItem key={item.title}>
                 {item.submenu ? (
-                  <Collapsible>
+                  <Collapsible defaultOpen className="group/collapsible">
                     <CollapsibleTrigger asChild>
                       <SidebarMenuButton className="flex items-center justify-between px-4 py-2 rounded-md transition-colors hover:bg-gray-100">
                         <span className="flex gap-x-2 items-center font-medium text-[#6c757d] ">
@@ -218,13 +218,13 @@ export function AppSidebar() {
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       {/* Use a <ul> for the submenu to avoid nested <li> */}
-                      <ul className="pl-4">
+                      <ul className="border-l-1 border-gray-300 ml-4">
                         {item.submenu.map((subItem) => (
                           <SidebarMenuItem key={subItem.title}>
                             <NavLink
                               to={subItem.url}
                               className={({ isActive }) =>
-                                `flex items-center gap-x-2 px-4 py-2 rounded-md transition-colors text-sm font-medium my-2 ${
+                                `flex items-center gap-x-2 px-4 py-2 rounded-md transition-colors text-sm font-medium my-2 ml-2  ${
                                   isActive
                                     ? "bg-sidebar-accent text-[#333333]"
                                     : "text-[#6c757d] hover:bg-gray-100"

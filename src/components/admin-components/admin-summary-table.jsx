@@ -177,7 +177,7 @@ export default function AdminSummaryTable({ data, preDeliveryData }) {
                     <thead className="th-user-table">
                       <tr>
                         {ADMIN_DASHBOARD_TABLE_HEADERS.map((header, index) => (
-                          <th key={index} className="px-6 py-3">
+                          <th key={index} className="px-5 py-3 tracking-wider">
                             {header}
                           </th>
                         ))}

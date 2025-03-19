@@ -117,16 +117,32 @@ export default function ScannedTimeIn() {
       }
     } catch (err) {
       if (err.response?.status === 400) {
-        setError("Appointment ID already exists in the system.");
+        const errorMessage = err.response?.data?.message;
+
+        if (errorMessage === "Appointment ID already exists in the system.") {
+          setError("Appointment ID already exists in the system.");
+        } else if (
+          errorMessage === "This appointment is not scheduled for today."
+        ) {
+          setError(
+            "This appointment is not scheduled for today. Please check the date."
+          );
+        } else if (errorMessage === "Time-in already recorded") {
+          setError("Time-in has already been recorded for this appointment.");
+        } else {
+          setError("Failed to update scan. Try scanning again.");
+        }
 
         // Ensure appointment data is still shown
         if (err.response.data?.appointment) {
           setAppointmentData([err.response.data.appointment]);
         }
-      } else {
+      } else if (err.response?.status === 404) {
         setError(
           "No appointment record found. Please verify the ID and retry."
         );
+      } else {
+        setError("An unexpected error occurred. Please try again.");
       }
 
       // ** Refresh the page after 5 seconds on error **

@@ -5,7 +5,7 @@ export default function AboutCard({ title, description, style }) {
   return (
     <div className={`${style}`}>
       <div className="title md:w-1/2">
-        <h1 className="font-bebas text-4xl tracking-wider bg-gradient-to-r from-[#1A2980] to-[#26D0CE] text-transparent bg-clip-text">
+        <h1 className="font-bebas text-4xl tracking-wider text-black">
           {title}
         </h1>
       </div>
