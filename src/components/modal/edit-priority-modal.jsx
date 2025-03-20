@@ -128,7 +128,7 @@ export default function EditPriorityModal({
 
                   <div className="flex-1 mt-5">
                     <label className="text-sm font-inter text-[#979090]">
-                      Priority
+                      Priority <span className="text-red-600">*</span>
                     </label>
                     <input
                       type="text"

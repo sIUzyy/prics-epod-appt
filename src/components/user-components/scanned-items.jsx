@@ -282,7 +282,7 @@ export default function ScannedItems() {
       const preDeliveryProductsLength =
         preDeliveryData[0]?.pre_delivery_products?.length || 0;
       const productCodesLength = trackingNoData.productCodes?.length || 0;
-  
+
       // If productCodes length matches pre_delivery_products, update EPOD status to "Delivered"
       if (preDeliveryProductsLength === productCodesLength) {
         updateEPODStatus("Delivered");
@@ -293,7 +293,6 @@ export default function ScannedItems() {
       }
     }
   }, [preDeliveryData, trackingNoData.productCodes, updateEPODStatus]);
-  
 
   // useEffect for date/time
   useEffect(() => {
@@ -359,7 +358,7 @@ export default function ScannedItems() {
   ]);
 
   return (
-    <div className="mt-5 py-5 px-4 rounded-md lg:w-3/5 lg:py-0 xl:w-2/3 lg:mt-0 ">
+    <div className="mt-5 py-5 px-2 rounded-md lg:w-3/5 lg:py-0 xl:w-2/3 lg:mt-0 ">
       <ScannedHeading />
 
       <div className="data_section mt-5">

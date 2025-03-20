@@ -42,7 +42,9 @@ export default function ScannedForms({
     <form>
       <div className="xl:flex xl:gap-x-3 xl:mb-5">
         <div className="xl:w-1/2 mb-5">
-          <label>Tracking No.</label>
+          <label className="font-work font-medium tracking-wider">
+            Tracking No.
+          </label>
           <input
             value={trackingNo || ""}
             type="text"
@@ -58,7 +60,9 @@ export default function ScannedForms({
         </div>
 
         <div className="xl:w-1/2 mb-5">
-          <label>Load No.</label>
+          <label className="font-work font-medium tracking-wider">
+            Load No.
+          </label>
           <input
             value={loadNo || ""}
             type="text"
@@ -75,7 +79,9 @@ export default function ScannedForms({
       </div>
       <div className="xl:flex xl:gap-x-3 xl:mb-5">
         <div className="xl:w-1/2">
-          <label>Received Date</label>
+          <label className="font-work font-medium tracking-wider">
+            Received Date
+          </label>
           <input
             value={currentDate}
             type="datetime-local"
@@ -85,7 +91,9 @@ export default function ScannedForms({
         </div>
 
         <div className="xl:w-1/2 mb-5">
-          <label>Received By</label>
+          <label className="font-work font-medium tracking-wider">
+            Received By <span className="text-red-600">*</span>
+          </label>
           <input
             value={receivedBy}
             onChange={(e) => {
@@ -104,10 +112,12 @@ export default function ScannedForms({
         </div>
       </div>
       <div className="mb-5">
-        <label>Product Code - Description</label>
+        <label className="font-work font-medium tracking-wider">
+          Product Code - Description <span className="text-red-600">*</span>
+        </label>
         <div className="relative ">
           <select
-            className="p-3 w-full mt-1 rounded-lg bg-gray-200 text-gray-500 outline-0 appearance-none pr-10"
+            className="p-3 w-full mt-1 rounded-lg bg-yellow-50 text-gray-500 outline-0 appearance-none pr-10"
             value={selectedProductCode}
             onChange={(e) => {
               setSelectedProductCode(e.target.value);
@@ -140,7 +150,9 @@ export default function ScannedForms({
       </div>
       <div className="xl:flex xl:gap-x-3 xl:mb-5">
         <div className="xl:w-1/2 mb-5">
-          <label>Received Quantity</label>
+          <label className="font-work font-medium tracking-wider">
+            Received Quantity <span className="text-red-600">*</span>
+          </label>
           <input
             value={receivedQuantity}
             onChange={(e) => {
@@ -162,7 +174,7 @@ export default function ScannedForms({
         </div>
 
         <div className="xl:w-1/2 mb-5 ">
-          <label className="">UOM</label>
+          <label className="font-work font-medium tracking-wider">UOM</label>
           <input
             value={uom || ""}
             type="text"
@@ -179,11 +191,8 @@ export default function ScannedForms({
         </div>
       </div>
       <div className="mb-5">
-        <label>
-          Remarks{" "}
-          <span className="text-sm text-[#979090]">
-            ( put &apos;N/A&apos; if none ).
-          </span>
+        <label className="font-work font-medium tracking-wider">
+          Remarks <span className="text-gray-400">*</span>{" "}
         </label>
 
         <textarea
@@ -192,7 +201,7 @@ export default function ScannedForms({
             setRemarks(e.target.value);
             if (remarksError) setRemarksError("");
           }}
-          placeholder="Enter the remarks"
+          placeholder="( put 'N/A' if none )."
           className="border p-2 mt-1 border-gray-400 w-full font-inter rounded-lg h-32 resize-none overflow-hidden "
         />
 
@@ -211,18 +220,18 @@ export default function ScannedForms({
           isLoading
             ? "w-full mt-5 py-6 bg-black rounded-md cursor-not-allowed opacity-70"
             : availableProductCodes.length === 0
-            ? "w-full mt-5 py-6 bg-[#008000] rounded-md cursor-not-allowed"
+            ? "w-full mt-5 py-6 bg-[#80C497] rounded-md cursor-not-allowed"
             : "w-full mt-5 py-6 bg-black rounded-md cursor-pointer"
         }
         disabled={isButtonDisabled}
       >
         {isLoading ? (
-          <div className="flex items-center justify-center gap-x-2">
+          <div className="flex items-center justify-center gap-x-2 ">
             <span>Loading</span>
             <LoadingSpinner />
           </div>
         ) : availableProductCodes.length === 0 ? (
-          "Scan Tracking No. "
+          <h1 className="font-work tracking-widest">Scan Tracking No. </h1>
         ) : (
           "Submit"
         )}

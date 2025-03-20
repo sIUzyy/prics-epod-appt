@@ -105,7 +105,7 @@ export default function ActivityListModal({ open, setOpen }) {
               <div className="forms mt-5">
                 <div className="flex-1">
                   <label className="text-sm font-inter text-[#979090]">
-                    Activity Name
+                    Activity Name <span className="text-red-600">*</span>
                   </label>
                   <input
                     type="text"

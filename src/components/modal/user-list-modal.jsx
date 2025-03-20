@@ -14,7 +14,7 @@ import {
 import LoadingSpinner from "../loading/loading-spinner";
 
 // ---- library ----
-import { UserRound } from "lucide-react"; // ---- icons
+import { User } from "lucide-react"; // ---- icons
 import { toast } from "sonner"; // ---- toast
 import axios from "axios"; // ---- axios
 
@@ -129,14 +129,14 @@ export default function UserListModal({ open, setOpen }) {
             <div className="bg-white   px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <DialogTitle
                 as="h1"
-                className="font-inter flex items-center gap-x-2 font-medium text-base"
+                className="font-inter flex items-center gap-x-2 font-medium text-base tracking-widest"
               >
-                <UserRound size={20} /> CREATE AN ACCOUNT
+                <User size={20} /> Create an Account
               </DialogTitle>
               <div className="forms mt-5">
                 <div className="flex-1">
                   <label className="text-sm font-inter text-[#979090]">
-                    Name
+                    Name <span className="text-red-600">*</span>
                   </label>
                   <input
                     type="text"
@@ -160,7 +160,7 @@ export default function UserListModal({ open, setOpen }) {
 
                 <div className="flex-1 my-5">
                   <label className="text-sm font-inter text-[#979090]">
-                    Username
+                    Username <span className="text-red-600">*</span>
                   </label>
                   <input
                     type="text"
@@ -184,7 +184,7 @@ export default function UserListModal({ open, setOpen }) {
 
                 <div className="flex-1">
                   <label className="text-sm font-inter text-[#979090]">
-                    Password
+                    Password <span className="text-red-600">*</span>
                   </label>
                   <input
                     type="password"

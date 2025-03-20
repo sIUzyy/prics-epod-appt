@@ -13,6 +13,12 @@ import prics_logo from "../assets/nav_logo.png";
 // props-validation
 import PropTypes from "prop-types";
 
+// ---- buffer
+import { Buffer } from "buffer";
+
+// prevent warning side of buffer is not define cause by react-pdf
+window.Buffer = Buffer;
+
 // document styling
 const styles = StyleSheet.create({
   page: { padding: 10 },
@@ -42,6 +48,8 @@ export default function AttachedFile({ selectedProductCode, preDeliveryData }) {
     .flatMap((filteredProduct) => filteredProduct.uploadedImages || []) // Get all images
     .filter((value, index, self) => self.indexOf(value) === index); // remove duplicates
 
+  console.log(uniqueImages);
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -69,7 +77,7 @@ export default function AttachedFile({ selectedProductCode, preDeliveryData }) {
               <Image
                 key={index}
                 // src={`http://localhost:5000/${image}`}
-                src={`https://prics-epod-backend.onrender.com/uploads/images/${image}`}
+                src={`https://prics-epod-backend.onrender.com/${image}`}
                 style={{
                   width: 400,
                   height: 300,

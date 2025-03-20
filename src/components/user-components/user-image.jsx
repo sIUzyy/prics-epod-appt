@@ -82,7 +82,9 @@ export default function UserImageUpload({ uploadedImages, setUploadedImages }) {
   return (
     <div>
       <div className="flex items-center gap-2">
-        <label>Upload Image:</label>
+        <label className="font-work font-medium tracking-wider">
+          Upload Image <span className="text-gray-400">*</span>
+        </label>
         <p className="text-[#979090] text-sm">( Max: {MAX_FILES} images )</p>
       </div>
 
