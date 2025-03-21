@@ -38,6 +38,9 @@ import { toast } from "sonner";
 // ---- component ----
 import LoadingSpinner from "../loading/loading-spinner";
 
+// ---- utils ----
+import { hasExistingAppointment } from "@/utils/checkAppointment";
+
 // Extend dayjs with timezone plugins
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -50,8 +53,6 @@ export default function EditAppointmentModal({
   setOpen,
   selectedAppointment,
 }) {
-  console.log(selectedAppointment);
-
   const {
     appointment_id,
     carrier_name,
@@ -66,6 +67,9 @@ export default function EditAppointmentModal({
     warehouse_name,
     warehouse_address,
   } = selectedAppointment || {}; // Prevents errors if `selectedAppointment` is null/undefined
+
+  // state for appointment data list
+  const [appointmentData, setAppointmentData] = useState([]);
 
   // auto-generated
   const [editAppointmentId] = useState(appointment_id);
@@ -102,6 +106,7 @@ export default function EditAppointmentModal({
   const [isLoading, setIsLoading] = useState(false);
   const [, setIsTruckLoading] = useState(false);
   const [, setIsActivityLoading] = useState(false);
+  const [, setIsAppointmentLoading] = useState(false);
 
   // error state
   const [warehouseAddressError, setWarehouseAddressError] = useState("");
@@ -171,6 +176,33 @@ export default function EditAppointmentModal({
     };
 
     fetchActivity();
+  }, []);
+
+  // function to fetch all the appointments
+  useEffect(() => {
+    const fetchAppointmentData = async () => {
+      setIsAppointmentLoading(true);
+      try {
+        const response = await axios.get(`${API_ENDPOINT}/api/appointment`);
+        const data = response.data.appointments;
+        setAppointmentData(data);
+      } catch (error) {
+        console.error("Failed to fetch appointment", error);
+        toast.error(
+          "We could not retrieve your appointment data. Please try again later.",
+          {
+            style: {
+              backgroundColor: "#ff4d4d",
+              color: "#fff",
+            },
+          }
+        );
+      } finally {
+        setIsAppointmentLoading(false);
+      }
+    };
+
+    fetchAppointmentData();
   }, []);
 
   // function to handle update appointment
@@ -246,6 +278,30 @@ export default function EditAppointmentModal({
 
     if (!editSelectedActivity) {
       setSelectedActivityError("Please select an activity");
+      setIsLoading(false);
+      return;
+    }
+
+    // check if the plate no have alr an appointment
+    if (
+      hasExistingAppointment(
+        appointmentData,
+        editSelectedPlate,
+        editSelectedDate
+      )
+    ) {
+      const formattedDate = dayjs(editSelectedDate)
+        .tz("Asia/Manila")
+        .format("MMMM D, YYYY"); // Example: March 17, 2025 02:30 PM
+      toast.warning(
+        `Plate No. ${editSelectedPlate} already has an appointment on the ${formattedDate}.`,
+        {
+          style: {
+            backgroundColor: "#ffa500",
+            color: "#fff",
+          },
+        }
+      );
       setIsLoading(false);
       return;
     }

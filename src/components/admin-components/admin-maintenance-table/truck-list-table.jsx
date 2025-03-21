@@ -89,9 +89,7 @@ export default function TruckListTable({ data }) {
                       >
                         <td className="td-admin-table ">{index + 1}</td>
                         <td className="td-admin-table ">{item.truckModel}</td>
-                        <td className="td-admin-table ">
-                          {item.weightCapacity} kg
-                        </td>
+                        {/*<td className="td-admin-table ">{item.weightCapacity} kg</td>*/}
                         <td className="td-admin-table ">{item.truckPlateNo}</td>
 
                         {/* <td className="td-user-table flex gap-x-4 justify-center   ">

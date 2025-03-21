@@ -379,10 +379,15 @@ export default function AllAppointment() {
                               </button>
                               <button
                                 title={`Delete appt. id ${item.appointment_id}`}
-                                className="text-red-600 cursor-pointer outline-none"
+                                className={`text-red-600 outline-none ${
+                                  item.status === "Completed"
+                                    ? "cursor-not-allowed opacity-50"
+                                    : "cursor-pointer"
+                                }`}
                                 onClick={() =>
                                   handleDeleteModal(item.appointment_id)
                                 }
+                                disabled={item.status === "Completed"}
                               >
                                 Delete
                               </button>

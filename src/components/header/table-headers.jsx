@@ -31,6 +31,7 @@ export const ADMIN_PRIORITY_PER_PLATE_NO_TABLE_HEADERS = [
   "Tracking No",
   "Customer Name",
   "Address",
+  "Status",
   "Priority",
   "Action",
 ];
@@ -81,7 +82,7 @@ export const ADMIN_DRIVER_LIST_TABLE_HEADERS = [
 export const ADMIN_TRUCK_LIST_TABLE_HEADERS = [
   "No",
   "Truck Model",
-  "Weight Capacity",
+  // "Weight Capacity",
   "Plate No",
 ];
 

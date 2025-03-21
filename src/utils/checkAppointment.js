@@ -11,14 +11,31 @@
  * @returns {boolean} `true` if an appointment exists for the given plate number and date, otherwise `false`.
  *
  */
+
 export const hasExistingAppointment = (data, plateNo, date) => {
   return data.some((appointment) => {
     const appointmentDate = new Date(
       appointment.appointment_date
     ).toDateString();
     const selectedDateStr = new Date(date).toDateString();
+
+    // Only return true if an appointment exists and is NOT "Completed"
     return (
-      appointment.plate_no === plateNo && appointmentDate === selectedDateStr
+      appointment.plate_no === plateNo &&
+      appointmentDate === selectedDateStr &&
+      appointment.status !== "Completed"
     );
   });
 };
+
+// export const hasExistingAppointment = (data, plateNo, date) => {
+//   return data.some((appointment) => {
+//     const appointmentDate = new Date(
+//       appointment.appointment_date
+//     ).toDateString();
+//     const selectedDateStr = new Date(date).toDateString();
+//     return (
+//       appointment.plate_no === plateNo && appointmentDate === selectedDateStr
+//     );
+//   });
+// };
