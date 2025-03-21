@@ -1,3 +1,4 @@
+// ---- global color for delivery/appointment status
 export const DELIVERY_STATUS_COLOR = {
   transit: "bg-[#FFC107]",
   receiving: "bg-[#007BFF]",

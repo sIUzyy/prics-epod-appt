@@ -1,32 +1,33 @@
-// components
-import Heading from "@/components/header/page-heading";
-import LoadingSpinner from "@/components/loading/loading-spinner";
-
-// context
-import { useAuth } from "@/context/AuthContextProvider";
-import { useWarehouse } from "@/context/WarehouseContextProvider";
-
-// react-router-dom
-import { useNavigate } from "react-router";
-
-// react
+// ---- react ----
 import { useState } from "react";
 
+// ---- components ----
+import LoadingSpinner from "@/components/loading/loading-spinner"; // ---- loading component
+import Heading from "@/components/header/page-heading"; // ---- header component
+
+// ---- context ----
+import { useWarehouse } from "@/context/WarehouseContextProvider"; // ---- selectedWarehouse by user in sign-in section
+import { useAuth } from "@/context/AuthContextProvider"; // ---- auth
+
+// ---- libary ----
+import { useNavigate } from "react-router"; // ---- react-router-dom
+
+// ---- user settings page
 export default function UserSettingsPage() {
-  // context
+  // ---- context for useAuth and useWarehouse
   const { user, signOut } = useAuth();
   const { selectedWarehouse } = useWarehouse();
 
-  // loading state
+  // ---- loading state
   const [isLoading, setIsLoading] = useState(false);
 
-  // get the plate no
+  // ---- get the plate no of user
   const plateNo = user.plateNo;
 
   // react-router
   const navigate = useNavigate();
 
-  // sign out function
+  // ---- sign out function
   const handleSignOut = () => {
     setIsLoading(true); // Start loading state
 

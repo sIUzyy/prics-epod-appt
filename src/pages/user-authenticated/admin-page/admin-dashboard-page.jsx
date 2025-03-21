@@ -1,23 +1,19 @@
-// icons
-import { NotepadText, CalendarCheck2, Truck } from "lucide-react";
-
-// shadcn component
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-// components
-import Heading from "@/components/header/page-heading";
-import LoadingTable from "@/components/loading/loading-table";
-import LoadingCard from "@/components/loading/loading-card";
-import AdminSummaryTable from "@/components/admin-components/admin-summary-table";
-
-// axios
-import axios from "axios";
-
-// react
+// ---- react ----
 import { useState, useEffect, useMemo } from "react";
 
-// toast
+// ---- shadcn component ----
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+// ---- components ----
+import AdminSummaryTable from "@/components/admin-components/admin-summary-table";
+import LoadingTable from "@/components/loading/loading-table";
+import LoadingCard from "@/components/loading/loading-card";
+import Heading from "@/components/header/page-heading";
+
+// ---- library ----
+import { NotepadText, CalendarCheck2, Truck } from "lucide-react";
 import { toast } from "sonner";
+import axios from "axios";
 
 // ---- dayjs ----
 import dayjs from "dayjs";
@@ -27,10 +23,10 @@ import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// backend endpoint
+// ---- backend endpoint ----
 const API_ENDPOINT = import.meta.env.VITE_BACKEND_API_ENDPOINT;
 
-// main dashboard of admin
+// ---- main dashboard of admin
 export default function AdminOrderSummary() {
   // state to stored the shipment data
   const [shipmentsData, setShipmentsData] = useState([]);

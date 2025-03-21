@@ -1,7 +1,8 @@
-// components
-import Heading from "@/components/header/page-heading";
+// ---- components ----
 import ScannedTimeIn from "@/components/security-components/scanned-time-in";
+import Heading from "@/components/header/page-heading";
 
+// ---- security time-in page
 export default function SecurityTimeIn() {
   return (
     <div className="m-5">

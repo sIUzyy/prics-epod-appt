@@ -30,6 +30,9 @@ export default function AppointmentDropdown({
   // ---- state for all appointment report (all-appointment)
   const [allReportUrl, setAllReportUrl] = useState(null);
 
+  // ---- state for all appointment report (all-appointment - date range)
+  const [filteredReportUrl, setFilteredReportUrl] = useState(null);
+
   // ---- get today's date for filename (memoized)
   const todayDate = useMemo(() => {
     return new Date().toLocaleString("en-PH", {
@@ -39,6 +42,20 @@ export default function AppointmentDropdown({
       timeZone: "Asia/Manila",
     });
   }, []);
+
+  // ---- filter appointments by date range
+  const filteredData = useMemo(() => {
+    return allData?.filter((item) => {
+      const appointmentDate = new Date(item.appointment_date);
+      if (startDate && appointmentDate < startDate) return false;
+      if (endDate) {
+        const endOfDay = new Date(endDate);
+        endOfDay.setHours(23, 59, 59, 999);
+        if (appointmentDate > endOfDay) return false;
+      }
+      return true;
+    });
+  }, [allData, startDate, endDate]);
 
   // ---- generate PDFs
   useEffect(() => {
@@ -57,13 +74,31 @@ export default function AppointmentDropdown({
           ).toBlob();
           setAllReportUrl(URL.createObjectURL(pdfBlob));
         }
+
+        if (type === "all" && filteredData?.length > 0) {
+          const pdfBlob = await pdf(
+            <AppointmentGeneralAll data={filteredData} />
+          ).toBlob();
+          setFilteredReportUrl(URL.createObjectURL(pdfBlob));
+        }
       } catch (error) {
         console.error("Error generating PDF:", error);
       }
     };
 
     generatePdf();
-  }, [todayData, allData, type]);
+  }, [todayData, allData, filteredData, type]);
+
+  // Format date to "Month Day, Year" (e.g., "March 1, 2024")
+  const formatDate = (date) => {
+    return (
+      date?.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }) || ""
+    );
+  };
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -80,22 +115,42 @@ export default function AppointmentDropdown({
       <MenuItems className="absolute right-0 z-10 mt-2 w-60 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 border-1">
         <div className="py-1 flex flex-col">
           {type === "all" ? (
-            // Download All Report
-            <MenuItem as="div">
-              {allReportUrl ? (
-                <a
-                  href={allReportUrl}
-                  download="ALL_APPOINTMENT_REPORT.pdf"
-                  className="px-3 py-2 text-sm text-gray-700 hover:text-indigo-500 cursor-pointer"
-                >
-                  Download All Report
-                </a>
-              ) : (
-                <span className="px-3 py-2 text-sm text-gray-500">
-                  Generating PDF...
-                </span>
-              )}
-            </MenuItem>
+            <>
+              {/* Download All Report */}
+              <MenuItem as="div">
+                {allReportUrl ? (
+                  <a
+                    href={allReportUrl}
+                    download="ALL_APPOINTMENT_REPORT.pdf"
+                    className="px-3 py-2 text-sm text-gray-700 hover:text-indigo-500 cursor-pointer"
+                  >
+                    Download All Report
+                  </a>
+                ) : (
+                  <span className="px-3 py-2 text-sm text-gray-500">
+                    Generating PDF...
+                  </span>
+                )}
+              </MenuItem>
+
+              <MenuItem as="div">
+                {filteredReportUrl ? (
+                  <a
+                    href={filteredReportUrl}
+                    download={`${startDate ? formatDate(startDate) : "Start"}_${
+                      endDate ? formatDate(endDate) : "End"
+                    }_APPOINTMENT_REPORT.pdf`}
+                    className="px-3 py-2 text-sm text-gray-700 hover:text-indigo-500 cursor-pointer"
+                  >
+                    Download Report (Date Range)
+                  </a>
+                ) : (
+                  <span className="px-3 py-2 text-sm text-gray-500">
+                    Generating PDF...
+                  </span>
+                )}
+              </MenuItem>
+            </>
           ) : (
             // Download Today's Report
             <MenuItem as="div">

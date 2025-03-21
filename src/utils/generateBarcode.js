@@ -1,6 +1,20 @@
-import JsBarcode from "jsbarcode"; // library to generate a barcode
+/**
+ * Generates a barcode image based on the given tracking number and triggers a download.
+ *
+ * This function creates a barcode using JsBarcode, renders it on a canvas,
+ * converts it to an image, and automatically downloads it as a PNG file.
+ *
+ * @param {string} trackingNo - The tracking number to encode in the barcode.
+ *
+ * @example
+ * generateBarcode("TRACK12345");
+ * // Triggers download: "epod_barcode_TRACK12345.png"
+ */
 
-// handle to generate a barcode based on tracking no
+// ---- library ----
+import JsBarcode from "jsbarcode"; // generate a barcode
+
+// function to generate a barcode based on tracking no
 export const generateBarcode = (trackingNo) => {
   const canvas = document.createElement("canvas");
   JsBarcode(canvas, trackingNo, {

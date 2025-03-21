@@ -1,12 +1,12 @@
-// react-icons
-import { MdKeyboardArrowLeft } from "react-icons/md";
+// ---- library ----
 
-// react-router-dom
-import { Link, Outlet, NavLink } from "react-router";
+import { MdKeyboardArrowLeft } from "react-icons/md"; // ---- react-icons
+import { Link, Outlet, NavLink } from "react-router"; // ---- react-router-dom
 
-// image
-import auth_image from "../assets/auth_image.webp";
+// ---- assets ----
+import auth_image from "../assets/auth_image.webp"; // ---- image
 
+// ---- authentication page (sign-in)
 export default function AuthenticationPage() {
   return (
     <div className="main_container p-5  lg:flex border-1 lg:h-screen">

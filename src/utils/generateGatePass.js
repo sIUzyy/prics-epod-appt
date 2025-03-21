@@ -1,6 +1,20 @@
-import JsBarcode from "jsbarcode"; // library to generate a barcode
+/**
+ * Generates a gate pass image with a barcode based on the given appointment ID.
+ *
+ * This function creates a barcode using JsBarcode, renders it on a canvas,
+ * adds a "GATEPASS" label, and automatically triggers a download of the generated image.
+ *
+ * @param {string} apptId - The appointment ID to encode in the barcode.
+ *
+ * @example
+ * generateGatePass("APPT12345");
+ * // Triggers download: "appointment_id_APPT12345.png"
+ */
 
-// handle to generate a gatepass based on appointment id
+// ---- library ----
+import JsBarcode from "jsbarcode"; // generate a barcode
+
+// function to generate a gatepass based on appointment id
 export const generateGatePass = (apptId) => {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");

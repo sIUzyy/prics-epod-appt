@@ -1,18 +1,16 @@
-// component
+// ---- react ----
+import { useEffect, useState } from "react";
+
+// ---- component ----
 import Heading from "@/components/header/page-heading";
 import DriverListTable from "@/components/admin-components/admin-maintenance-table/driver-list-table";
 import LoadingTable from "@/components/loading/loading-table";
 
-// react
-import { useEffect, useState } from "react";
-
-// toast
+// ---- library ----
 import { toast } from "sonner";
-
-// axios
 import axios from "axios";
 
-// backend endpoint
+// ---- backend endpoint ----
 const API_ENDPOINT = import.meta.env.VITE_BACKEND_API_ENDPOINT;
 
 export default function AdminMaintenanceDriverList() {

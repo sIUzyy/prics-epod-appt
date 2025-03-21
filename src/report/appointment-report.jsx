@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   column: { flex: 1, fontSize: 8, paddingHorizontal: 2, textAlign: "center" },
 });
 
+// ---- report by appt-id (report per row)
 export default function AppointmentReport({ data }) {
   return (
     <Document>

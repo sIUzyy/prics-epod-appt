@@ -1,6 +1,8 @@
-// components
-import Heading from "@/components/header/page-heading";
+// ---- components ----
 import ScannedGatePass from "@/components/security-components/scanned-gatepass";
+import Heading from "@/components/header/page-heading";
+
+// ---- note: currently abandoned, this page is combination of time-in/time-out
 export default function SecurityDashboardPage() {
   return (
     <div className="m-5">

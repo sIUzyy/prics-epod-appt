@@ -1,28 +1,20 @@
-// shadcn component
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-// ---- icons ----
-import { CalendarCheck2, Truck, CalendarPlus } from "lucide-react";
-
-// ---- components ----
-import Heading from "@/components/header/page-heading";
-import LoadingCard from "@/components/loading/loading-card";
-import AppointmentModal from "@/components/modal/appointment-modal";
-
-// ---- react-router ----
-import { NavLink, Outlet } from "react-router";
-
 // ---- react ----
 import { useState, useEffect, useMemo } from "react";
 
-// ---- toast ----
-import { toast } from "sonner";
+// ---- components ----
+import AppointmentModal from "@/components/modal/appointment-modal";
+import LoadingCard from "@/components/loading/loading-card";
+import Heading from "@/components/header/page-heading";
 
-// ---- dayjs ----
-import dayjs from "dayjs";
+// ---- shadcn component ----
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-// ---- axios ----
-import axios from "axios";
+// ---- library ----
+import { CalendarCheck2, Truck, CalendarPlus } from "lucide-react"; // ---- icons
+import { NavLink, Outlet } from "react-router"; // ---- react router
+import { toast } from "sonner"; // ---- toast
+import axios from "axios"; // ---- axios
+import dayjs from "dayjs"; // ---- dayjs
 
 // ---- backend endpoint ----
 const API_ENDPOINT = import.meta.env.VITE_BACKEND_API_ENDPOINT;

@@ -1,13 +1,32 @@
-// react-router dom
-import { Navigate } from "react-router";
-
-// context
-import { useAuth } from "@/context/AuthContextProvider";
+/**
+ * ProtectedRoute Component
+ *
+ * This component restricts access to routes based on user authentication and role.
+ * It ensures that only authenticated users with the required role can access the wrapped content.
+ * Unauthorized users will be redirected accordingly.
+ *
+ * @param {object} props - Component properties
+ * @param {ReactNode} props.children - The protected content to render if authorized
+ * @param {string} [props.requiredRole] - The required role to access the route
+ *
+ * @returns {ReactNode} - Either the protected content or a redirect component
+ *
+ * @example
+ * <ProtectedRoute requiredRole="admin">
+ *   <AdminDashboard />
+ * </ProtectedRoute>
+ */
 
 // prop-types validation
 import PropTypes from "prop-types";
 
-// utils
+// ---- library ----
+import { Navigate } from "react-router"; // ---- react-router dom
+
+// ---- context ----
+import { useAuth } from "@/context/AuthContextProvider";
+
+// ---- utils ----
 import { getRedirectPath } from "@/utils/getRedirectPath";
 
 // this component will protect the authenticated route, role-based route by someone who want to access.

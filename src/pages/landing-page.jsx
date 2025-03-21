@@ -1,11 +1,11 @@
-// react
+// ---- react ----
 import React, { useRef } from "react";
 
-// component - header
+// ---- component - header ----
 import NavigationBar from "@/components/header/navigation-bar";
 import Footer from "@/components/header/footer";
 
-// component - pages
+// ---- component - pages ----
 import LandingPageComponent from "@/components/pages/landing-page";
 import AboutPageComponent from "@/components/pages/about-page";
 

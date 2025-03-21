@@ -8,6 +8,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 // react-router-dom
 import { Outlet } from "react-router";
 
+// --- layout for the sidebar
 export default function Layout({ children }) {
   return (
     <SidebarProvider>

@@ -1,8 +1,9 @@
 // ---- components ----
-import ScanItems from "@/components/user-components/scan-items";
 import ScannedItems from "@/components/user-components/scanned-items";
+import ScanItems from "@/components/user-components/scan-items";
 import Heading from "@/components/header/page-heading";
 
+// ---- pre-delivery page
 export default function UserPreDeliveryPage() {
   return (
     <div className="my-5 mx-4">

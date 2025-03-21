@@ -1,7 +1,8 @@
-// components
-import Heading from "@/components/header/page-heading";
+// ---- components ----
 import ScannedTimeOut from "@/components/security-components/scanned-time-out";
+import Heading from "@/components/header/page-heading";
 
+// ---- security time-out page
 export default function SecurityTimeOut() {
   return (
     <div className="m-5">

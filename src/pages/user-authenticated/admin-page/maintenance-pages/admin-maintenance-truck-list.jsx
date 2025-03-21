@@ -1,18 +1,16 @@
-// component
+// ---- react----
+import { useEffect, useState } from "react";
+
+// ---- component ----
 import TruckListTable from "@/components/admin-components/admin-maintenance-table/truck-list-table";
 import LoadingTable from "@/components/loading/loading-table";
 import Heading from "@/components/header/page-heading";
 
-// axios
+// ---- library ----
+import { toast } from "sonner";
 import axios from "axios";
 
-// react
-import { useEffect, useState } from "react";
-
-// toast
-import { toast } from "sonner";
-
-// backend endpoint
+// ---- backend endpoint ----
 const API_ENDPOINT = import.meta.env.VITE_BACKEND_API_ENDPOINT;
 
 export default function AdminMaintenanceTruckList() {

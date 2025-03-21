@@ -1,47 +1,39 @@
-// react
+// ---- react ----
 import { useState, useEffect } from "react";
 
-// react-router-dom
-import { useParams } from "react-router";
-
-// component
+// ---- component ----
 import AdminOrderItemsTable from "@/components/admin-components/admin-order-items-table";
 import LoadingTable from "@/components/loading/loading-table";
 import LoadingCard from "@/components/loading/loading-card";
-
-// shadcn component
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-// icons
-import { Hash, Truck } from "lucide-react";
-
-// components
 import Heading from "@/components/header/page-heading";
 
-// axios
-import axios from "axios";
+// ---- shadcn component ----
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-// toast
-import { toast } from "sonner";
+// ---- library ----
+import { useParams } from "react-router"; // ---- react router dom
+import { Hash, Truck } from "lucide-react"; // ---- icon
+import { toast } from "sonner"; // ---- toast
+import axios from "axios"; // axios
 
-// backend endpoint
+// ---- backend endpoint ----
 const API_ENDPOINT = import.meta.env.VITE_BACKEND_API_ENDPOINT;
 
 // this page is specifically for order summary by tracking no.
 export default function AdminOrderSummaryById() {
-  // state for product code
+  // ----state for product code data list
   const [productCodes, setProductCodes] = useState([]);
 
-  // state to stored the pre-delivery data
+  // ---- state to stored the pre-delivery data (when user scan the tracking no.)
   const [preDeliveryData, setPreDeliveryData] = useState([]);
 
-  // loading state
+  // ---- loading state
   const [isLoading, setIsLoading] = useState(false);
 
-  // get the tracking no /:id
+  // ---- get the tracking no /:id
   const { id } = useParams();
 
-  // fetch the product code by its tracking no
+  // ---- fetch the product code by its tracking no
   useEffect(() => {
     const fetchProductCodes = async () => {
       setIsLoading(true);
@@ -72,7 +64,7 @@ export default function AdminOrderSummaryById() {
     }
   }, [id]);
 
-  // fetch pre-delivery data for each product code tracking no.
+  // ---- fetch pre-delivery data for each product code tracking no.
   useEffect(() => {
     // if productcode length is 0, end.
     if (productCodes.length === 0) return;

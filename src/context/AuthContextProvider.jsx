@@ -1,3 +1,5 @@
+// -- context for authentication
+
 // react
 import { useState, createContext, useContext, useEffect } from "react";
 

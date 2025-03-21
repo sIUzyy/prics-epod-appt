@@ -38,17 +38,17 @@ const styles = StyleSheet.create({
   label: { fontSize: 10, marginVertical: 5, fontWeight: "bold" },
 });
 
+// ---- report by product code (attached file (image))
 export default function AttachedFile({ selectedProductCode, preDeliveryData }) {
+  // filter products matching the selected product code
   const uniqueImages = preDeliveryData
     .flatMap((delivery) =>
       delivery.pre_delivery_products.filter(
         (product) => product.productCode === selectedProductCode
       )
     )
-    .flatMap((filteredProduct) => filteredProduct.uploadedImages || []) // Get all images
-    .filter((value, index, self) => self.indexOf(value) === index); // remove duplicates
-
-  console.log(uniqueImages);
+    .flatMap((filteredProduct) => filteredProduct.uploadedImages || []) // ---- get all images
+    .filter((value, index, self) => self.indexOf(value) === index); // ---- remove duplicates
 
   return (
     <Document>

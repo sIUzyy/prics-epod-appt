@@ -1,33 +1,31 @@
-// ---- components ----
-import Heading from "@/components/header/page-heading";
-import UserAppointment from "@/components/user-components/user-appointment";
+// ---- react ----
+import { useEffect, useState } from "react";
 
 // ---- context ----
 import { useAuth } from "@/context/AuthContextProvider";
 
-// ---- axios
-import axios from "axios";
+// ---- components ----
+import Heading from "@/components/header/page-heading";
+import UserAppointment from "@/components/user-components/user-appointment";
 
-// ---- react ----
-import { useEffect, useState } from "react";
+// ---- library ----
+import { toast } from "sonner"; // ---- toast
+import axios from "axios"; // ---- axios
 
-// ---- toast ----
-import { toast } from "sonner";
-
-// backend endpoint
+// ---- backend endpoint ----
 const API_ENDPOINT = import.meta.env.VITE_BACKEND_API_ENDPOINT;
 
 export default function UserAppointmentPage() {
-  // context
+  // ---- user-context
   const { user } = useAuth();
 
-  // stored the appointment list
+  // ---- stored the appointment data list
   const [appointmentData, setAppointmentData] = useState([]);
 
-  // loading state
+  // ----loading state
   const [isLoading, setIsLoading] = useState(false);
 
-  // fetch appointment list by plate no
+  // ---- fetch appointment list by plate no
   useEffect(() => {
     const getAppointmentListByPlateNo = async () => {
       setIsLoading(true);

@@ -1,39 +1,40 @@
-// component
-import Heading from "@/components/header/page-heading";
-import LoadingSpinner from "@/components/loading/loading-spinner";
-
-// context
-import { useAuth } from "@/context/AuthContextProvider";
-
-// react-router-dom
-import { useNavigate } from "react-router";
-
-// react
+// ---- react ----
 import { useState } from "react";
 
+// ---- context ----
+import { useAuth } from "@/context/AuthContextProvider";
+
+// ---- component ----
+import LoadingSpinner from "@/components/loading/loading-spinner";
+import Heading from "@/components/header/page-heading";
+
+// ---- library ----
+import { useNavigate } from "react-router"; // ---- react-router-dom
+
+// ---- security settings page
 export default function SecuritySettingsPage() {
-  // context
+  // ---- user-context
   const { user, signOut } = useAuth();
 
-  // get the username and name
+  // ---- get the username and name
   const username = user.username;
   const name = user.name;
 
-  // loading state
+  // ---- loading state
   const [isLoading, setIsLoading] = useState(false);
 
-  // react-router
+  // ---- react-router
   const navigate = useNavigate();
 
-  // sign out function
+  // ---- sign out function
   const handleSignOut = () => {
-    setIsLoading(true); // Start loading state
+    setIsLoading(true);
 
-    signOut(); // Sign out the user
+    signOut();
 
     setTimeout(() => {
-      navigate("/signin"); // Redirect after 1 second
-      setIsLoading(false); // Stop loading (optional, since user will navigate)
+      navigate("/signin"); // redirect after 1 second
+      setIsLoading(false); // stop loading (optional, since user will navigate)
     }, 1000);
   };
   return (

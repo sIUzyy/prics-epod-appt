@@ -1,4 +1,4 @@
-// this context will get the scanned items data and store it in the global state ([user-page]: pre-delivery)
+// -- this context will get the scanned items data and store it in the global state ([user-page]: pre-delivery)
 
 import { useState, createContext, useContext } from "react";
 import PropTypes from "prop-types";

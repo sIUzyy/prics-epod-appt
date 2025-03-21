@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   column: { flex: 1, fontSize: 8, paddingHorizontal: 2, textAlign: "center" },
 });
 
+// ---- report for today's-appointment (download today's report)
 export default function AppointmentGeneralToday({ data }) {
   return (
     <Document>

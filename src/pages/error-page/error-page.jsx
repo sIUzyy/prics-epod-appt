@@ -1,4 +1,7 @@
+// ---- asets ----
 import error_img from "../../assets/error_image.webp"; // image
+
+// ---- library ----
 import { Link } from "react-router"; // react-router-dom
 
 // if there's non-existence route, show this.
