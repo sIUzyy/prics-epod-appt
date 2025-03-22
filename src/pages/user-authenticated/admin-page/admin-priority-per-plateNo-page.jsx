@@ -12,7 +12,6 @@ import axios from "axios"; // ---- axios
 
 // ---- components ----
 import AdminPriorityPerPlateNoTable from "@/components/admin-components/admin-priority-per-plateNo";
-import LoadingTable from "@/components/loading/loading-table";
 
 // ---- backend endpoint ----
 const API_ENDPOINT = import.meta.env.VITE_BACKEND_API_ENDPOINT;
@@ -74,7 +73,7 @@ export default function AdminPriorityPerPlateNoPage() {
       </Card>
 
       {loadingPlate ? (
-        <LoadingTable />
+        <p className="mt-5">Loading...</p>
       ) : (
         <AdminPriorityPerPlateNoTable data={shipmentData} />
       )}
